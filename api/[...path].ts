@@ -1,8 +1,7 @@
 // Vercel serverless entry: wraps server.ts's Express app.
 // server.ts exports nothing currently, so we import it for side effects
 // and re-export a handler that Vercel invokes per request.
-
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+export default function handler(req: VercelRequest, res: VercelResponse){
 import express from 'express';
 import { GoogleGenAI } from '@google/genai';
 
