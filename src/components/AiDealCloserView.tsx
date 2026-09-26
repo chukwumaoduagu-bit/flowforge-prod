@@ -159,7 +159,7 @@ export const AiDealCloserView: React.FC = () => {
     try {
       const data = await safeFetch('/api/ai-closer/pipeline');
       if (!data) {
-        setPipelineStats({ totalCashCollected: 10794, activePipelineValue: 12500, texasTaxExemption: 600, avgCloseCycleHrs: 3.4 });
+        setPipelineStats({ totalRevenueUSD: 10794, activePipelineValueUSD: 12500, texasTaxSavingsGeneratedUSD: 600 });
         setDeals(prev => prev.length ? prev : FALLBACK_PROSPECTS);
         if (!selectedDealId && FALLBACK_PROSPECTS.length) setSelectedDealId(FALLBACK_PROSPECTS[0].id);
       } else if (data.success) {
@@ -405,7 +405,7 @@ export const AiDealCloserView: React.FC = () => {
             <DollarSignIcon className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-2xl md:text-3xl font-extrabold text-emerald-400 mt-1">
-            ${pipelineStats.totalRevenueUSD.toLocaleString()}
+            ${(pipelineStats.totalRevenueUSD ?? 0).toLocaleString()}
           </div>
           <div className="text-[11px] text-emerald-400/80 mt-1 flex items-center space-x-1">
             <CheckCircle2Icon className="w-3 h-3" />
@@ -419,7 +419,7 @@ export const AiDealCloserView: React.FC = () => {
             <TrendingUpIcon className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="text-2xl md:text-3xl font-extrabold text-cyan-300 mt-1">
-            ${pipelineStats.activePipelineValueUSD.toLocaleString()}
+            ${(pipelineStats.activePipelineValueUSD ?? 0).toLocaleString()}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
             {pipelineStats.activeOpportunitiesCount} in active AI negotiation
@@ -432,7 +432,7 @@ export const AiDealCloserView: React.FC = () => {
             <ReceiptIcon className="w-4 h-4 text-amber-400" />
           </div>
           <div className="text-2xl md:text-3xl font-extrabold text-amber-300 mt-1">
-            ${pipelineStats.texasTaxSavingsGeneratedUSD.toLocaleString()}
+            ${(pipelineStats.texasTaxSavingsGeneratedUSD ?? 0).toLocaleString()}
           </div>
           <div className="text-[11px] text-amber-400/80 mt-1">
             § 151.351 (20% SaaS exemption)
@@ -541,7 +541,7 @@ export const AiDealCloserView: React.FC = () => {
 
                     <div className="text-right">
                       <span className="text-sm font-extrabold text-cyan-400">
-                        ${deal.dealValueUSD.toLocaleString()}
+                        ${(deal.dealValueUSD ?? 0).toLocaleString()}
                         {deal.packageTier === 'STABILITY_CORE' ? '/mo' : ''}
                       </span>
                       <div className="mt-0.5">
