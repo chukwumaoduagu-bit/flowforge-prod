@@ -110,13 +110,12 @@ export const AiDealCloserView: React.FC = () => {
       industry: 'Data Infrastructure & FinTech',
       location: 'Dallas, TX',
       sizeRange: '100-250 employees',
-      teamSize: 42,
       stage: 'DISCOVERED',
       readinessScore: 65,
-      dealValueUSD: 3000,
-      packageTier: 'ESA_AUDIT',
+      packageValue: 3000,
+      packageTier: 'ESA Audit ($3,000)',
       decisionMaker: { name: 'Alex Rivera', title: 'VP of Engineering', email: 'a.rivera@apexdata.io' },
-      targetPainPoint: 'DevOps bottleneck causing 4-day sprint delays; lead engineer burnout at 89%',
+      friction: 'DevOps bottleneck causing 4-day sprint delays; lead engineer burnout at 89%',
       salesTacticUsed: 'Pain Agitation & 15% Slack Liquidity Benchmark',
       transcript: []
     },
@@ -127,13 +126,12 @@ export const AiDealCloserView: React.FC = () => {
       industry: 'Enterprise FinTech & Cloud SaaS',
       location: 'Austin, TX',
       sizeRange: '250-500 employees',
-      teamSize: 64,
       stage: 'DISCOVERED',
       readinessScore: 60,
-      dealValueUSD: 3000,
-      packageTier: 'ESA_AUDIT',
+      packageValue: 3000,
+      packageTier: 'ESA Audit ($3,000)',
       decisionMaker: { name: 'David Vance', title: 'VP of Engineering', email: 'd.vance@tritonsys.io' },
-      targetPainPoint: 'Sprint velocity dropped 28% after Series B hiring surge; PR review latency at 44 hours',
+      friction: 'Sprint velocity dropped 28% after Series B hiring surge; PR review latency at 44 hours',
       salesTacticUsed: 'Capacity Benchmark & Tax Savings Framing',
       transcript: []
     },
@@ -144,25 +142,24 @@ export const AiDealCloserView: React.FC = () => {
       industry: 'WealthTech & Brokerage APIs',
       location: 'Houston, TX',
       sizeRange: '50-100 employees',
-      teamSize: 28,
       stage: 'DISCOVERED',
       readinessScore: 58,
-      dealValueUSD: 5000,
-      packageTier: 'ESA_AUDIT',
+      packageValue: 5000,
+      packageTier: 'ESA Audit ($5,000)',
       decisionMaker: { name: 'Robert Chen', title: 'Chief Technology Officer', email: 'r.chen@kestracap.com' },
-      targetPainPoint: 'Critical path single-point-of-failure: 2 staff engineers review 82% of financial ledger PRs',
+      friction: 'Critical path single-point-of-failure: 2 staff engineers review 82% of financial ledger PRs',
       salesTacticUsed: 'Risk Quantification & Compliance Angle',
       transcript: []
     }
   ];
-
+  // ============ END FALLBACK SUPPORT ============
 
   const fetchPipeline = async () => {
     setIsLoadingPipeline(true);
     try {
       const data = await safeFetch('/api/ai-closer/pipeline');
       if (!data) {
-        setPipelineStats({ totalRevenueUSD: 10794, activePipelineValueUSD: 12500, texasTaxSavingsGeneratedUSD: 600, dealsWonCount: 2, activeOpportunitiesCount: 4, avgCloseCycleHours: 3.4 });
+        setPipelineStats({ totalRevenueUSD: 10794, activePipelineValueUSD: 12500, texasTaxSavingsGeneratedUSD: 600 });
         setDeals(prev => prev.length ? prev : FALLBACK_PROSPECTS);
         if (!selectedDealId && FALLBACK_PROSPECTS.length) setSelectedDealId(FALLBACK_PROSPECTS[0].id);
       } else if (data.success) {
@@ -557,7 +554,7 @@ export const AiDealCloserView: React.FC = () => {
                               : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
                           }`}
                         >
-                          {(deal.stage ?? 'DISCOVERED').replace('_', ' ')}
+                          {deal.stage.replace('_', ' ')}
                         </span>
                       </div>
                     </div>
