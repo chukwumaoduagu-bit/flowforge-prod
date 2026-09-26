@@ -1,4 +1,3 @@
-94
 import React, { useState, useEffect } from 'react';
 import {
   BotIcon,
@@ -92,77 +91,12 @@ export const AiDealCloserView: React.FC = () => {
     fetchPipeline();
   }, []);
 
-  // ============ VERCEL FALLBACK SUPPORT ============
-  const safeFetch = async (url: string, options?: RequestInit): Promise<any | null> => {
-    try {
-      const res = await fetch(url, options);
-      const ct = res.headers.get('content-type') || '';
-      if (!ct.includes('application/json')) return null;
-      return await res.json();
-    } catch { return null; }
-  };
-
-  const FALLBACK_PROSPECTS: any[] = [
-    {
-      id: `P-${Date.now()}-1`,
-      companyName: 'Apex Data Intelligence',
-      domain: 'apexdata.io',
-      industry: 'Data Infrastructure & FinTech',
-      location: 'Dallas, TX',
-      sizeRange: '100-250 employees',
-      stage: 'DISCOVERED',
-      readinessScore: 65,
-      packageValue: 3000,
-      packageTier: 'ESA Audit ($3,000)',
-      decisionMaker: { name: 'Alex Rivera', title: 'VP of Engineering', email: 'a.rivera@apexdata.io' },
-      friction: 'DevOps bottleneck causing 4-day sprint delays; lead engineer burnout at 89%',
-      salesTacticUsed: 'Pain Agitation & 15% Slack Liquidity Benchmark',
-      transcript: []
-    },
-    {
-      id: `P-${Date.now()}-2`,
-      companyName: 'Triton Distributed Systems',
-      domain: 'tritonsys.io',
-      industry: 'Enterprise FinTech & Cloud SaaS',
-      location: 'Austin, TX',
-      sizeRange: '250-500 employees',
-      stage: 'DISCOVERED',
-      readinessScore: 60,
-      packageValue: 3000,
-      packageTier: 'ESA Audit ($3,000)',
-      decisionMaker: { name: 'David Vance', title: 'VP of Engineering', email: 'd.vance@tritonsys.io' },
-      friction: 'Sprint velocity dropped 28% after Series B hiring surge; PR review latency at 44 hours',
-      salesTacticUsed: 'Capacity Benchmark & Tax Savings Framing',
-      transcript: []
-    },
-    {
-      id: `P-${Date.now()}-3`,
-      companyName: 'Kestra Capital Technologies',
-      domain: 'kestracap.com',
-      industry: 'WealthTech & Brokerage APIs',
-      location: 'Houston, TX',
-      sizeRange: '50-100 employees',
-      stage: 'DISCOVERED',
-      readinessScore: 58,
-      packageValue: 5000,
-      packageTier: 'ESA Audit ($5,000)',
-      decisionMaker: { name: 'Robert Chen', title: 'Chief Technology Officer', email: 'r.chen@kestracap.com' },
-      friction: 'Critical path single-point-of-failure: 2 staff engineers review 82% of financial ledger PRs',
-      salesTacticUsed: 'Risk Quantification & Compliance Angle',
-      transcript: []
-    }
-  ];
-  // ============ END FALLBACK SUPPORT ============
-
   const fetchPipeline = async () => {
     setIsLoadingPipeline(true);
     try {
-      const data = await safeFetch('/api/ai-closer/pipeline');
-      if (!data) {
-        setPipelineStats({ totalCashCollected: 10794, activePipelineValue: 12500, texasTaxExemption: 600, avgCloseCycleHrs: 3.4 });
-        setDeals(prev => prev.length ? prev : FALLBACK_PROSPECTS);
-        if (!selectedDealId && FALLBACK_PROSPECTS.length) setSelectedDealId(FALLBACK_PROSPECTS[0].id);
-      } else if (data.success) {
+      const res = await fetch('/api/ai-closer/pipeline');
+      const data = await res.json();
+      if (data.success) {
         setPipelineStats(data.stats);
         setDeals(data.deals || []);
         if (data.deals && data.deals.length > 0 && !selectedDealId) {
@@ -182,15 +116,17 @@ export const AiDealCloserView: React.FC = () => {
   const handleDiscoverNewTargets = async () => {
     setIsDiscovering(true);
     try {
-      const data = await safeFetch('/api/ai-closer/discover', {
+      const res = await fetch('/api/ai-closer/discover', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetSector, region: targetRegion, count: 3 })
+        body: JSON.stringify({
+          targetSector,
+          region: targetRegion,
+          count: 3
+        })
       });
-      const prospects = (data && data.success && data.prospects) ? data.prospects : FALLBACK_PROSPECTS;
-      setDeals(prev => [...prospects, ...prev]);
-      if (prospects.length > 0) setSelectedDealId(prospects[0].id);
-      if (false) {
+      const data = await res.json();
+      if (data.success && data.prospects) {
         setDeals(prev => [...data.prospects, ...prev]);
         if (data.prospects.length > 0) {
           setSelectedDealId(data.prospects[0].id);
@@ -214,7 +150,7 @@ export const AiDealCloserView: React.FC = () => {
     const currentHistory = selectedDeal.transcript || [];
 
     try {
-      const data = await safeFetch('/api/ai-closer/interact', {
+      const res = await fetch('/api/ai-closer/interact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -226,14 +162,8 @@ export const AiDealCloserView: React.FC = () => {
         })
       });
 
-      if (!data) {
-        const newTurns = [
-          { role: 'prospect' as const, text: messageToSend },
-          { role: 'closer' as const, text: "FlowForge's 15% Slack Liquidity Reserve guarantees sprint delivery without adding headcount. Combined with the 151.351 Texas exemption and 48h ESA, you recover 4 days per sprint.", tactic: 'Value Anchoring & Texas Tax Exemption' }
-        ];
-        setDeals(prev => prev.map(d => d.id === selectedDeal.id ? { ...d, readinessScore: Math.min(100, d.readinessScore + 15), transcript: [...(d.transcript || []), ...newTurns] } : d));
-        setChatInput('');
-      } else if (data.success) {
+      const data = await res.json();
+      if (data.success) {
         setLastTacticUsed(data.salesTacticUsed || 'Value Anchoring & Texas Tax Exemption');
 
         const newTurns = [
@@ -271,7 +201,7 @@ export const AiDealCloserView: React.FC = () => {
   // 3. Close Deal & Execute Real-Time Payment
   const handleCloseDealNow = async (dealToClose: ProspectDeal) => {
     try {
-      const data = await safeFetch('/api/ai-closer/close-and-pay', {
+      const res = await fetch('/api/ai-closer/close-and-pay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -283,11 +213,8 @@ export const AiDealCloserView: React.FC = () => {
         })
       });
 
-      if (!data) {
-        const closedDeal = { ...dealToClose, stage: 'CLOSED_WON', readinessScore: 100, receiptId: `TXN-${Date.now()}` };
-        setDeals(prev => prev.map(d => d.id === closedDeal.id ? closedDeal : d));
-        setSelectedReceiptDeal(closedDeal);
-      } else if (data.success) {
+      const data = await res.json();
+      if (data.success) {
         const updatedDeal = data.deal;
         setDeals(prev => prev.map(d => (d.id === updatedDeal.id ? updatedDeal : d)));
         setSelectedReceiptDeal(updatedDeal);
@@ -324,19 +251,14 @@ export const AiDealCloserView: React.FC = () => {
     }
 
     try {
-      const data = await safeFetch('/api/ai-closer/autopilot-batch', {
+      const res = await fetch('/api/ai-closer/autopilot-batch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ targetCount: 1 })
       });
 
-      if (!data) {
-        const closedDeal = { ...FALLBACK_PROSPECTS[0], id: `P-${Date.now()}`, stage: 'CLOSED_WON', readinessScore: 100, receiptId: `TXN-${Date.now()}` };
-        setDeals(prev => [closedDeal, ...prev]);
-        setSelectedDealId(closedDeal.id);
-        setSelectedReceiptDeal(closedDeal);
-        setAutopilotLogs(prev => prev.map(s => ({ ...s, status: 'completed' as const })));
-      } else if (data.success && data.closedDeal) {
+      const data = await res.json();
+      if (data.success && data.closedDeal) {
         setDeals(prev => [data.closedDeal, ...prev]);
         setSelectedDealId(data.closedDeal.id);
         setSelectedReceiptDeal(data.closedDeal);
