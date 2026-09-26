@@ -1,0 +1,6 @@
+{
+  "name": "FlowForge - Enterprise AI Orchestration",
+  "description": "FlowForge Stability OS — Engineering Stability Platform (ESP), Global Operating Model, Enterprise Financial Model, Partner Revenue Ecosystem, and 5-Layer Technical Architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
