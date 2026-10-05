@@ -20,14 +20,19 @@ import {
   PlayIcon,
   SparklesIcon,
   ZapIcon,
-  BotIcon
+  BotIcon,
+  TargetIcon
 } from 'lucide-react';
 
 interface MvpRevenueExecutionViewProps {
   onNavigateToAiCloser?: () => void;
+  onNavigateToDashboardPrototype?: () => void;
 }
 
-export const MvpRevenueExecutionView: React.FC<MvpRevenueExecutionViewProps> = ({ onNavigateToAiCloser }) => {
+export const MvpRevenueExecutionView: React.FC<MvpRevenueExecutionViewProps> = ({ 
+  onNavigateToAiCloser,
+  onNavigateToDashboardPrototype
+}) => {
   // Step 1-3: 3 Core MVP Metrics State
   const [commits, setCommits] = useState<number>(54);
   const [issues, setIssues] = useState<number>(12);
@@ -288,6 +293,15 @@ I've attached the recurring agreement and Stripe invoice link. Can we activate y
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            {onNavigateToDashboardPrototype && (
+              <button
+                onClick={onNavigateToDashboardPrototype}
+                className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs shadow-lg shadow-purple-500/20 transition cursor-pointer"
+              >
+                <TargetIcon className="w-4 h-4" />
+                <span>🎯 MVP Dashboard Prototype (v0.1)</span>
+              </button>
+            )}
             {onNavigateToAiCloser && (
               <button
                 onClick={onNavigateToAiCloser}

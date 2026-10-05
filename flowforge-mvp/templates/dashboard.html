@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowForge — Engineering Stability Platform (ESP)</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="brand">
+            <span class="pulse-dot"></span>
+            <h1>FlowForge <span>Stability OS</span></h1>
+        </div>
+        <div class="team-bar">
+            <label for="team-select">Team:</label>
+            <select id="team-select">
+                <option value="Texas Core Platform">Texas Core Platform</option>
+                <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+                <option value="FinTech API Swarm">FinTech API Swarm</option>
+            </select>
+            <button class="btn btn-primary" onclick="generateESA()">⚡ Generate ESA Report</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 3 Core Metric Cards -->
+        <section class="metrics-grid">
+            <!-- Card 1: Stability Score -->
+            <div class="card card-stability">
+                <div class="card-header">
+                    <span class="label">STABILITY SCORE</span>
+                    <span class="badge badge-stable" id="stability-tag">Stable</span>
+                </div>
+                <div class="big-number" id="stability-score">78.5</div>
+                <div class="card-footer">
+                    <span>Formula: 100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V))</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Slack Liquidity -->
+            <div class="card card-slack">
+                <div class="card-header">
+                    <span class="label">SLACK LIQUIDITY</span>
+                    <span class="badge badge-warning" id="slack-tag">Slack Tight</span>
+                </div>
+                <div class="big-number" id="slack-liquidity">22.0%</div>
+                <div class="card-footer">
+                    <span>Buffer: Committed vs Total Capacity</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Burnout Index -->
+            <div class="card card-burnout">
+                <div class="card-header">
+                    <span class="label">BURNOUT RISK</span>
+                    <span class="badge badge-emerging" id="burnout-tag">Emerging Risk</span>
+                </div>
+                <div class="big-number" id="burnout-index">0.37</div>
+                <div class="card-footer">
+                    <span>Scale 0.0 - 1.0 (0.5L + 0.3(1-S) + 0.2V)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Ingestion & Math Controls -->
+        <section class="controls-panel">
+            <h3>🎛️ Live Parameter Simulation (Empirical Queueing Physics)</h3>
+            <div class="sliders-grid">
+                <div class="slider-group">
+                    <label>Load Factor (L): <strong id="lbl-load">0.80</strong></label>
+                    <input type="range" id="input-load" min="0" max="1" step="0.05" value="0.80" oninput="recalc()">
+                </div>
+                <div class="slider-group">
+                    <label>Slack Factor (S): <strong id="lbl-slack">0.22</strong></label>
+                    <input type="range" id="input-slack" min="0" max="1" step="0.05" value="0.22" oninput="recalc()">
+                </div>
+                <div class="slider-group">
+                    <label>Volatility Factor (V): <strong id="lbl-volatility">0.28</strong></label>
+                    <input type="range" id="input-volatility" min="0" max="1" step="0.05" value="0.28" oninput="recalc()">
+                </div>
+            </div>
+        </section>
+
+        <!-- ESA Report Container -->
+        <section id="esa-container" class="esa-preview" style="display: none;">
+            <!-- Populated dynamically via ESA generator -->
+        </section>
+    </main>
+
+    <script>
+        function recalc() {
+            const L = parseFloat(document.getElementById('input-load').value);
+            const S = parseFloat(document.getElementById('input-slack').value);
+            const V = parseFloat(document.getElementById('input-volatility').value);
+
+            document.getElementById('lbl-load').innerText = L.toFixed(2);
+            document.getElementById('lbl-slack').innerText = S.toFixed(2);
+            document.getElementById('lbl-volatility').innerText = V.toFixed(2);
+
+            const score = (100 * (0.4 * (1 - L) + 0.4 * S + 0.2 * (1 - V))).toFixed(1);
+            const slackPercent = (S * 100).toFixed(1);
+            const burnout = (0.5 * L + 0.3 * (1 - S) + 0.2 * V).toFixed(2);
+
+            document.getElementById('stability-score').innerText = score;
+            document.getElementById('slack-liquidity').innerText = slackPercent + '%';
+            document.getElementById('burnout-index').innerText = burnout;
+
+            // Update badges
+            const stabTag = document.getElementById('stability-tag');
+            if (score >= 85) { stabTag.innerText = 'Excellent'; stabTag.className = 'badge badge-excellent'; }
+            else if (score >= 70) { stabTag.innerText = 'Stable'; stabTag.className = 'badge badge-stable'; }
+            else if (score >= 50) { stabTag.innerText = 'Fragile'; stabTag.className = 'badge badge-warning'; }
+            else { stabTag.innerText = 'Critical'; stabTag.className = 'badge badge-critical'; }
+
+            const slackTag = document.getElementById('slack-tag');
+            if (slackPercent >= 30) { slackTag.innerText = 'Slack Healthy'; slackTag.className = 'badge badge-stable'; }
+            else if (slackPercent >= 15) { slackTag.innerText = 'Slack Tight'; slackTag.className = 'badge badge-warning'; }
+            else { slackTag.innerText = 'Slack Critical'; slackTag.className = 'badge badge-critical'; }
+        }
+
+        async function generateESA() {
+            const team = document.getElementById('team-select').value;
+            const res = await fetch('/api/esa');
+            const data = await res.json();
+            
+            const container = document.getElementById('esa-container');
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="esa-card">
+                    <div class="esa-header">
+                        <h2>Enterprise Stability Assessment (ESA)</h2>
+                        <span class="cert-badge">FLOWFORGE CERTIFIED</span>
+                    </div>
+                    <p>Team: <strong>${team}</strong> • Assessment ID: ${data.esa_id || 'ESA-001'}</p>
+                    <div class="esa-stats">
+                        <div>Stability Score: <strong>${document.getElementById('stability-score').innerText}</strong></div>
+                        <div>Slack Liquidity: <strong>${document.getElementById('slack-liquidity').innerText}</strong></div>
+                        <div>Burnout Index: <strong>${document.getElementById('burnout-index').innerText}</strong></div>
+                        <div>Rating: <strong>${document.getElementById('stability-tag').innerText}</strong></div>
+                    </div>
+                    <h3>Key Recommendations</h3>
+                    <ul>
+                        ${(data.recommendations || []).map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                    <div class="esa-footer">
+                        <span>CFO TAX PRO LLC (dba FlowForge) • Texas Entity #08051239</span>
+                        <button class="btn btn-secondary" onclick="window.print()">Print / Export PDF</button>
+                    </div>
+                </div>
+            `;
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

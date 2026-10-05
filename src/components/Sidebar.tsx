@@ -51,6 +51,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: 'LIVE & PAID'
     },
     {
+      id: 'mvp_dashboard',
+      label: '🎯 MVP Dashboard Prototype',
+      icon: TargetIcon,
+      badge: 'SELLABLE v0.1'
+    },
+    {
       id: 'stability_core',
       label: 'Stability Core (Live Loop)',
       icon: ActivityIcon,

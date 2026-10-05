@@ -3,6 +3,15 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
+import {
+  calculateStabilityScore,
+  calculateSlackLiquidity,
+  calculateBurnoutIndex,
+  getStabilityRating,
+  getSlackTier,
+  getBurnoutTier,
+  generateEsaReportObject
+} from './src/core/stabilityFormulas';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -504,7 +513,139 @@ Return JSON with { subject, emailBody, linkedinMessage, executiveSummary }.`,
   // ⭐ FLOWFORGE MVP & REVENUE EXECUTION APIS
   // ==========================================
 
-  // 1. GET /api/mvp/metrics - The 3 Core MVP Metrics
+  // In-memory team telemetry registry for the MVP specification
+  const MVP_TEAMS_DATA: Record<string, any> = {
+    'team-123': {
+      team_id: 'team-123',
+      name: 'Texas Core Platform',
+      load: 0.80,
+      slack: 0.22,
+      volatility: 0.28,
+      engineers: [
+        { id: 'eng-1', name: 'Lead Architect', active_tasks: 8, completed_tasks: 14, hours: 48 },
+        { id: 'eng-2', name: 'Senior Backend Eng', active_tasks: 6, completed_tasks: 12, hours: 42 },
+        { id: 'eng-3', name: 'DevOps Lead', active_tasks: 9, completed_tasks: 8, hours: 50 }
+      ]
+    }
+  };
+
+  // 1. Direct MVP Endpoint: GET /api/stability
+  app.get('/api/stability', (req, res) => {
+    const load = Number(req.query.load) || 0.80;
+    const slack = Number(req.query.slack) || 0.22;
+    const volatility = Number(req.query.volatility) || 0.28;
+
+    const score = calculateStabilityScore(load, slack, volatility);
+    const slackPct = Number((slack * 100).toFixed(1));
+    const burnout = calculateBurnoutIndex(load, slack, volatility);
+
+    res.json({
+      team_id: 'team-123',
+      stability_score: score,
+      slack_liquidity: slackPct,
+      burnout_index: burnout,
+      rating: getStabilityRating(score),
+      slack_tier: getSlackTier(slackPct),
+      burnout_tier: getBurnoutTier(burnout),
+      inputs: { load, slack, volatility }
+    });
+  });
+
+  // 2. Direct MVP Endpoint: GET & POST /api/esa
+  app.all('/api/esa', (req, res) => {
+    const teamName = (req.body && req.body.team_name) || req.query.team_name || 'Texas Core Platform';
+    const load = Number((req.body && req.body.load) || req.query.load) || 0.80;
+    const slack = Number((req.body && req.body.slack) || req.query.slack) || 0.22;
+    const volatility = Number((req.body && req.body.volatility) || req.query.volatility) || 0.28;
+
+    const report = generateEsaReportObject(String(teamName), { load, slack, volatility });
+    res.json(report);
+  });
+
+  // 3. Specification Endpoint: POST /api/teams/:team_id/data (Ingest team data)
+  app.post('/api/teams/:team_id/data', (req, res) => {
+    const { team_id } = req.params;
+    const payload = req.body || {};
+    const engineers = payload.engineers || [];
+    const workItems = payload.work_items || {};
+
+    const totalTasks = engineers.reduce((sum: number, e: any) => sum + (Number(e.active_tasks) || 0), 0);
+    const numEngineers = Math.max(1, engineers.length);
+    const avgTasks = totalTasks / numEngineers;
+    const load = Math.min(1.0, Number((avgTasks / 10.0).toFixed(2)));
+    const slack = Math.max(0.05, Math.min(0.40, Number((1.0 - load).toFixed(2))));
+    const volatility = 0.24;
+
+    MVP_TEAMS_DATA[team_id] = {
+      team_id,
+      name: payload.name || `Team ${team_id}`,
+      period: payload.period || '2026-09-01_to_2026-09-30',
+      load,
+      slack,
+      volatility,
+      engineers,
+      workItems,
+      updated_at: new Date().toISOString()
+    };
+
+    res.status(201).json({
+      status: 'success',
+      message: `Ingested data for team ${team_id}`,
+      team_id,
+      engineers_count: engineers.length,
+      calculated_load: load
+    });
+  });
+
+  // 4. Specification Endpoint: GET /api/teams/:team_id/stability
+  app.get('/api/teams/:team_id/stability', (req, res) => {
+    const { team_id } = req.params;
+    const team = MVP_TEAMS_DATA[team_id] || {
+      team_id,
+      name: `Team ${team_id}`,
+      load: 0.80,
+      slack: 0.22,
+      volatility: 0.28
+    };
+
+    const score = calculateStabilityScore(team.load, team.slack, team.volatility);
+    const slackPct = Number((team.slack * 100).toFixed(1));
+    const burnout = calculateBurnoutIndex(team.load, team.slack, team.volatility);
+
+    res.json({
+      team_id,
+      team_name: team.name,
+      stability_score: score,
+      slack_liquidity: slackPct,
+      burnout_index: burnout,
+      rating: getStabilityRating(score),
+      slack_tier: getSlackTier(slackPct),
+      burnout_tier: getBurnoutTier(burnout)
+    });
+  });
+
+  // 5. Specification Endpoint: POST /api/teams/:team_id/esa
+  app.post('/api/teams/:team_id/esa', (req, res) => {
+    const { team_id } = req.params;
+    const team = MVP_TEAMS_DATA[team_id] || {
+      team_id,
+      name: req.body?.team_name || `Team ${team_id}`,
+      load: 0.80,
+      slack: 0.22,
+      volatility: 0.28
+    };
+
+    const report = generateEsaReportObject(team.name, {
+      load: team.load,
+      slack: team.slack,
+      volatility: team.volatility
+    });
+    report.esaId = `ESA-${team_id}-${Date.now().toString().slice(-4)}`;
+
+    res.json(report);
+  });
+
+  // 6. GET /api/mvp/metrics - The 3 Core MVP Metrics
   app.get('/api/mvp/metrics', (req, res) => {
     // Inputs from query or live telemetry defaults
     const commits = Number(req.query.commits) || 48;

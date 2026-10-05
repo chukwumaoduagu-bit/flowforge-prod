@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enterprise Stability Assessment — {{ team_name }}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0b0f19; color: #f8fafc; padding: 40px; margin: 0; }
+        .cert-header { border-bottom: 2px solid #06b6d4; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .cert-header h1 { margin: 0; color: #fff; font-size: 24px; letter-spacing: -0.5px; }
+        .badge { background: rgba(6, 182, 212, 0.15); border: 1px solid #06b6d4; color: #22d3ee; padding: 4px 12px; border-radius: 9999px; font-weight: bold; font-size: 11px; }
+        .metrics-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; }
+        .metric-box { background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; }
+        .metric-box span { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: bold; display: block; }
+        .metric-box strong { font-size: 28px; color: #38bdf8; display: block; margin-top: 5px; }
+        .section { background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 20px; }
+        .section h2 { margin-top: 0; font-size: 18px; color: #f1f5f9; }
+        ul { padding-left: 20px; color: #cbd5e1; font-size: 14px; line-height: 1.6; }
+        .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #1e293b; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="cert-header">
+        <div>
+            <h1>Enterprise Stability Assessment (ESA)</h1>
+            <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 14px;">Target Engineering Organization: <strong>{{ team_name }}</strong></p>
+        </div>
+        <span class="badge">CERTIFIED ASSESSMENT</span>
+    </div>
+
+    <div class="metrics-summary">
+        <div class="metric-box">
+            <span>Stability Score</span>
+            <strong>{{ stability_score }} / 100</strong>
+        </div>
+        <div class="metric-box">
+            <span>Slack Liquidity</span>
+            <strong style="color: #34d399;">{{ slack_liquidity }}%</strong>
+        </div>
+        <div class="metric-box">
+            <span>Burnout Index</span>
+            <strong style="color: #f87171;">{{ burnout_index }}</strong>
+        </div>
+        <div class="metric-box">
+            <span>Overall Rating</span>
+            <strong>{{ rating }}</strong>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Telemetry Findings & Bottlenecks</h2>
+        <ul>
+            <li><strong>Critical Path Bottleneck:</strong> Primary technical gating resides on single architectural review pod.</li>
+            <li><strong>Slack Deficit:</strong> Current buffer margin is insufficient to absorb 1 standard dev delivery surge.</li>
+            <li><strong>Burnout Hotspots:</strong> Continuous high-velocity sprint cadence without recovery periods detected.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>30-Day Stability Plan (Action Items)</h2>
+        <ul>
+            <li><strong>Week 1:</strong> Enforce strict WIP limits of maximum 2 in-flight tickets per senior engineer.</li>
+            <li><strong>Week 2:</strong> Introduce 4-hour micro-slack windows on Tuesdays and Thursdays.</li>
+            <li><strong>Week 3:</strong> Parallelize frontend UI staging with backend mock validation.</li>
+            <li><strong>Week 4:</strong> Re-run ESA automated audit to verify 15%+ Slack Liquidity floor.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        Issued by CFO TAX PRO LLC (dba FlowForge) • Texas Entity #08051239 • Texas Tax Code § 151.351 Active
+    </div>
+</body>
+</html>

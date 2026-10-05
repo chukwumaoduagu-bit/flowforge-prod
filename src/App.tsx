@@ -54,6 +54,7 @@ import { TotalEnterprisePart14View } from './components/TotalEnterprisePart14Vie
 import { TotalBusinessArchitectureView } from './components/TotalBusinessArchitectureView';
 import { MasterBusinessPlanView } from './components/MasterBusinessPlanView';
 import { MvpRevenueExecutionView } from './components/MvpRevenueExecutionView';
+import { MvpDashboardPrototypeView } from './components/MvpDashboardPrototypeView';
 import { AiDealCloserView } from './components/AiDealCloserView';
 
 export default function App() {
@@ -81,6 +82,9 @@ export default function App() {
         setMarketingPage('ai_closer');
       } else if (hash === 'mvp_revenue') {
         setActiveTab('mvp_revenue');
+        setMarketingPage('mvp_revenue');
+      } else if (hash === 'mvp_dashboard' || hash === 'mvp') {
+        setActiveTab('mvp_dashboard');
         setMarketingPage('mvp_revenue');
       } else if (hash === 'stability_core') {
         setActiveTab('stability_core');
@@ -803,6 +807,7 @@ export default function App() {
         {[
           { id: 'ai_deal_closer', label: '🤖 AI Deal Closer (Autopilot)' },
           { id: 'mvp_revenue', label: '⭐ The Money Path (MVP)' },
+          { id: 'mvp_dashboard', label: '🎯 MVP Dashboard Prototype' },
           { id: 'stability_core', label: 'Stability Core (Live Loop)' },
           { id: 'enterprise_readiness', label: 'Enterprise Readiness' },
           { id: 'expansion_suite', label: 'Expansion Suite' },
@@ -858,7 +863,16 @@ export default function App() {
           )}
 
           {activeTab === 'mvp_revenue' && (
-            <MvpRevenueExecutionView onNavigateToAiCloser={() => setActiveTab('ai_deal_closer')} />
+            <MvpRevenueExecutionView 
+              onNavigateToAiCloser={() => setActiveTab('ai_deal_closer')}
+              onNavigateToDashboardPrototype={() => setActiveTab('mvp_dashboard')}
+            />
+          )}
+
+          {activeTab === 'mvp_dashboard' && (
+            <MvpDashboardPrototypeView
+              onNavigateToAiCloser={() => setActiveTab('ai_deal_closer')}
+            />
           )}
 
           {activeTab === 'stability_core' && (
