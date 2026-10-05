@@ -27,7 +27,12 @@ import {
   PlayIcon,
   RotateCcwIcon,
   DownloadIcon,
-  LayersIcon
+  LayersIcon,
+  ListChecksIcon,
+  MailIcon,
+  AwardIcon,
+  CalendarIcon,
+  ClockIcon
 } from 'lucide-react';
 import {
   calculateStabilityScore,
@@ -44,14 +49,305 @@ interface MvpDashboardPrototypeProps {
   onNavigateToAiCloser?: () => void;
 }
 
-// Full Python MVP Source Code Files & Schema Definitions
+// 10 CTO Outreach Messages Catalog
+export interface CtoOutreachMessageItem {
+  id: number;
+  title: string;
+  angle: string;
+  subject: string;
+  body: string;
+}
+
+const CTO_10_MESSAGES: CtoOutreachMessageItem[] = [
+  {
+    id: 1,
+    title: 'Message 1: The Stability Metric Question',
+    angle: 'Direct / Founder-Led SaaS Pacing',
+    subject: 'Quick question about engineering stability',
+    body: `Hi {{FirstName}},
+
+As a SaaS CTO, you're probably tracking deployment performance and delivery velocity.
+
+What I don't often see measured is engineering stability.
+
+I built FlowForge to quantify:
+• Team Stability Score
+• Burnout Risk
+• Capacity Buffer
+• Delivery Risk
+
+I'm looking for a small group of SaaS teams to run a founder-led Engineering Stability Assessment.
+
+Would you be open to a 15-minute conversation?
+
+Chuck`
+  },
+  {
+    id: 2,
+    title: 'Message 2: Leading vs Lagging Indicators',
+    angle: 'Predict Burnout Before Velocity Drops',
+    subject: 'Burnout usually appears after velocity drops',
+    body: `Hi {{FirstName}},
+
+Most SaaS teams discover burnout after delivery slows.
+
+FlowForge measures leading indicators before velocity suffers.
+
+We're helping engineering leaders identify:
+• Hidden workload concentration
+• Delivery fragility
+• Burnout risk
+
+Interested in seeing a sample assessment?
+
+Chuck`
+  },
+  {
+    id: 3,
+    title: 'Message 3: What Is Your Team Score?',
+    angle: 'Score-Focused Hook',
+    subject: "What is your team's Stability Score?",
+    body: `Hi {{FirstName}},
+
+We built a simple framework that measures engineering stability across SaaS teams.
+
+The result is a Stability Score that helps leadership identify risks long before they become delivery problems.
+
+Would it be useful to see what this could look like for your organization?
+
+Chuck`
+  },
+  {
+    id: 4,
+    title: 'Message 4: Growth vs Stability',
+    angle: 'Executive Gap in Engineering Metrics',
+    subject: 'Engineering leaders need a stability metric',
+    body: `Hi {{FirstName}},
+
+SaaS companies track growth, uptime, and deployment frequency.
+
+Few track engineering stability.
+
+FlowForge helps leadership understand:
+• Burnout exposure
+• Capacity constraints
+• Delivery predictability
+
+Would you be interested in a pilot assessment?
+
+Chuck`
+  },
+  {
+    id: 5,
+    title: 'Message 5: 30-Day Assessment Offer',
+    angle: 'Concrete Deliverables & Action Plan',
+    subject: '30-day Engineering Stability Assessment',
+    body: `Hi {{FirstName}},
+
+I'm offering a founder-led Engineering Stability Assessment for SaaS organizations.
+
+Deliverables include:
+• Stability Score
+• Burnout Index
+• Slack Liquidity Analysis
+• Executive Action Plan
+
+Would it make sense to schedule a quick discussion?
+
+Chuck`
+  },
+  {
+    id: 6,
+    title: 'Message 6: Hidden Delivery Risk',
+    angle: 'Early Warning Detection',
+    subject: 'Hidden delivery risk inside engineering teams',
+    body: `Hi {{FirstName}},
+
+Many delivery issues begin months before executives see them.
+
+FlowForge surfaces early warning signs through engineering stability metrics.
+
+I can show you a sample report if helpful.
+
+Chuck`
+  },
+  {
+    id: 7,
+    title: 'Message 7: Beyond Tickets & Velocity',
+    angle: 'Alternative to Flawed Ticket Metrics',
+    subject: 'New way to measure engineering health',
+    body: `Hi {{FirstName}},
+
+I built FlowForge because engineering leaders deserve better visibility than ticket counts and velocity charts.
+
+We're measuring:
+• Stability
+• Burnout Risk
+• Capacity Buffer
+
+Interested in a quick demo?
+
+Chuck`
+  },
+  {
+    id: 8,
+    title: 'Message 8: 3 Pilot Customer Spots',
+    angle: 'Exclusivity & Early Founder Pilot',
+    subject: 'Looking for 3 SaaS pilot customers',
+    body: `Hi {{FirstName}},
+
+I'm currently looking for three SaaS companies to participate in a founder-led FlowForge pilot.
+
+You'll receive a complete Engineering Stability Assessment and executive review.
+
+Would you be open to learning more?
+
+Chuck`
+  },
+  {
+    id: 9,
+    title: 'Message 9: Cost of Delivery Instability',
+    angle: 'Financial / Risk Avoidance',
+    subject: 'Reduce delivery risk before it becomes expensive',
+    body: `Hi {{FirstName}},
+
+Engineering instability is expensive.
+
+Burnout, velocity drops, and delivery delays often share the same root causes.
+
+FlowForge identifies those issues early.
+
+Happy to share a sample assessment if you're interested.
+
+Chuck`
+  },
+  {
+    id: 10,
+    title: 'Message 10: The Stability OS Vision',
+    angle: 'Categorical Executive Confidence',
+    subject: 'FlowForge — Stability OS for SaaS Engineering Teams',
+    body: `Hi {{FirstName}},
+
+We built FlowForge to answer one question:
+
+"How stable is your engineering organization right now?"
+
+The output is a clear executive view of risk, capacity, burnout exposure, and delivery confidence.
+
+Would you be interested in reviewing a sample report?
+
+Chuck`
+  }
+];
+
+// 7-Day Execution Checklist Data
+interface ChecklistTask {
+  id: string;
+  category: 'technical' | 'business';
+  text: string;
+}
+
+interface ChecklistDay {
+  day: number;
+  title: string;
+  targetOutcome: string;
+  tasks: ChecklistTask[];
+}
+
+const CHECKLIST_DAYS: ChecklistDay[] = [
+  {
+    day: 1,
+    title: 'DAY 1 — MVP FOUNDATION',
+    targetOutcome: 'Dashboard running locally and live on flowforge.fit',
+    tasks: [
+      { id: 'd1_t1', category: 'technical', text: 'Create PostgreSQL database tables (teams, engineers, metrics, esa_reports)' },
+      { id: 'd1_t2', category: 'technical', text: 'Run and verify schema.sql with seed data' },
+      { id: 'd1_t3', category: 'technical', text: 'Build Stability Score API (100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V)))' },
+      { id: 'd1_t4', category: 'technical', text: 'Build Slack Liquidity API (100 * max(0, SlackCap / TotalCap))' },
+      { id: 'd1_t5', category: 'technical', text: 'Build Burnout Index API (0.5*L + 0.3*(1-S) + 0.2*V)' },
+      { id: 'd1_t6', category: 'technical', text: 'Connect dashboard frontend UI to live API endpoints' },
+      { id: 'd1_b1', category: 'business', text: 'Create FlowForge email account (chuck@flowforge.fit)' },
+      { id: 'd1_b2', category: 'business', text: 'Create FlowForge LinkedIn Company Page' },
+      { id: 'd1_b3', category: 'business', text: 'Finalize pricing ($3,000 ESA Audit + $1,500/mo Stability Core)' }
+    ]
+  },
+  {
+    day: 2,
+    title: 'DAY 2 — ESA SYSTEM',
+    targetOutcome: 'ESA generated automatically with 1 click',
+    tasks: [
+      { id: 'd2_t1', category: 'technical', text: 'Build ESA automated report generator' },
+      { id: 'd2_t2', category: 'technical', text: 'Create HTML ESA report template with dark theme styling' },
+      { id: 'd2_t3', category: 'technical', text: 'Implement 1-click printable / PDF export' },
+      { id: 'd2_t4', category: 'technical', text: 'Generate unique ESA ID and verification hash system' },
+      { id: 'd2_b1', category: 'business', text: 'Create sample ESA report for Texas Core Platform anchor pod' },
+      { id: 'd2_b2', category: 'business', text: 'Create service brochure PDF / 1-pager for prospect review' }
+    ]
+  },
+  {
+    day: 3,
+    title: 'DAY 3 — WEBSITE LAUNCH',
+    targetOutcome: 'Public website live on flowforge.fit with assessment booking CTA',
+    tasks: [
+      { id: 'd3_t1', category: 'technical', text: 'Deploy MVP application to public production domain' },
+      { id: 'd3_t2', category: 'technical', text: 'Verify flowforge.fit landing pages (Home, Product, Platform, Pricing, ESA)' },
+      { id: 'd3_t3', category: 'technical', text: 'Configure clear Primary CTA: "Book Stability Assessment ($3,000)"' },
+      { id: 'd3_t4', category: 'technical', text: 'Confirm Texas Tax Code § 151.351 statutory 20% exemption display' }
+    ]
+  },
+  {
+    day: 4,
+    title: 'DAY 4 — PROSPECT LIST (50 LEADS)',
+    targetOutcome: 'Prospect pipeline of 50 qualified engineering leaders built',
+    tasks: [
+      { id: 'd4_b1', category: 'business', text: 'Target VP Engineering & CTOs at SaaS / FinTech / InsurTech / AI startups' },
+      { id: 'd4_b2', category: 'business', text: 'Focus on 50–500 engineer organizations facing rapid scaling drag' },
+      { id: 'd4_b3', category: 'business', text: 'Compile list of 50 verified contact emails and LinkedIn profiles' },
+      { id: 'd4_b4', category: 'business', text: 'Note recent triggers: funding rounds, reorgs, hiring surges, open tickets' }
+    ]
+  },
+  {
+    day: 5,
+    title: 'DAY 5 — OUTREACH LAUNCH',
+    targetOutcome: '20 fresh executive contacts reached; discovery calls booked',
+    tasks: [
+      { id: 'd5_b1', category: 'business', text: 'Send 10 personalized direct emails to target CTOs' },
+      { id: 'd5_b2', category: 'business', text: 'Send 10 targeted LinkedIn InMail messages' },
+      { id: 'd5_b3', category: 'business', text: 'Track open rates and reply responses in acquisition tracker' },
+      { id: 'd5_b4', category: 'business', text: 'Follow up on all positive replies within 15 minutes' }
+    ]
+  },
+  {
+    day: 6,
+    title: 'DAY 6 — DEMO READINESS',
+    targetOutcome: 'Deliver demo confidently in under 15 minutes',
+    tasks: [
+      { id: 'd6_t1', category: 'technical', text: 'Practice Stability Score live slider demo (0.80 / 0.22 / 0.28)' },
+      { id: 'd6_t2', category: 'technical', text: 'Practice ESA generation walkthrough showing findings and 30-Day Plan' },
+      { id: 'd6_b1', category: 'business', text: 'Rehearse executive objection handling (queue math vs ticket vanity)' },
+      { id: 'd6_b2', category: 'business', text: 'Run 2 practice trial demos with peer founder or advisor' }
+    ]
+  },
+  {
+    day: 7,
+    title: 'DAY 7 — SALES DAY & FIRST PROPOSAL',
+    targetOutcome: '3 meetings held, 1 formal pilot proposal sent ($3,000 ESA)',
+    tasks: [
+      { id: 'd7_b1', category: 'business', text: 'Conduct 3 executive discovery calls with prospect engineering leads' },
+      { id: 'd7_b2', category: 'business', text: 'Pitch the $3,000 48-Hour Engineering Stability Assessment' },
+      { id: 'd7_b3', category: 'business', text: 'Issue official 1-Page Pilot Proposal with Texas tax exemption' },
+      { id: 'd7_b4', category: 'business', text: 'Send Stripe payment link or invoice to close customer #1' }
+    ]
+  }
+];
+
+// Standalone Python MVP Files Manifest
 const PYTHON_MVP_FILES = [
   {
     id: 'app_py',
     name: 'app.py',
     path: 'flowforge-mvp/app.py',
-    language: 'python',
-    description: 'Flask REST API entrypoint with /teams endpoints and telemetry ingestion',
+    description: 'Flask REST API entrypoint with /teams and /api endpoints',
     code: `"""
 FlowForge MVP V1 — Python Flask Application
 Implements the core stability scoring API, Slack Liquidity formula, Burnout Index, and ESA generation.
@@ -90,7 +386,7 @@ def stability():
     volatility = float(request.args.get("volatility", 0.28))
 
     score = calculate_stability_score(load, slack, volatility)
-    slack_percent = calculate_slack_liquidity(100, round(100 * (1 - slack)))  # 22%
+    slack_percent = calculate_slack_liquidity(100, round(100 * (1 - slack)))
     burnout = calculate_burnout(load, slack, volatility)
 
     return jsonify({
@@ -117,7 +413,6 @@ def esa():
     return jsonify(report)
 
 # ================= RESTFUL SPECIFICATION ENDPOINTS =================
-# 1. Ingest team data: POST /teams/<team_id>/data
 @app.route("/teams/<team_id>/data", methods=["POST"])
 @app.route("/api/teams/<team_id>/data", methods=["POST"])
 def ingest_team_data(team_id):
@@ -131,7 +426,6 @@ def ingest_team_data(team_id):
     avg_tasks = total_tasks / num_engineers
     load_factor = min(1.0, avg_tasks / 10.0)
 
-    # Calculate dynamic slack and volatility
     commits = work_items.get("commits", 100)
     volatility = min(1.0, max(0.1, (commits % 50) / 50.0))
     slack_factor = max(0.05, min(0.40, 1.0 - load_factor))
@@ -153,7 +447,6 @@ def ingest_team_data(team_id):
         "calculated_load": round(load_factor, 2)
     }), 201
 
-# 2. Get stability metrics: GET /teams/<team_id>/stability
 @app.route("/teams/<team_id>/stability", methods=["GET"])
 @app.route("/api/teams/<team_id>/stability", methods=["GET"])
 def get_team_stability(team_id):
@@ -179,7 +472,6 @@ def get_team_stability(team_id):
         "burnout_tier": get_burnout_risk_label(burnout)
     })
 
-# 3. Generate ESA: POST /teams/<team_id>/esa
 @app.route("/teams/<team_id>/esa", methods=["POST"])
 @app.route("/api/teams/<team_id>/esa", methods=["POST"])
 def generate_team_esa(team_id):
@@ -213,108 +505,63 @@ if __name__ == "__main__":
     id: 'schema_sql',
     name: 'schema.sql',
     path: 'flowforge-mvp/schema.sql',
-    language: 'sql',
     description: 'PostgreSQL Relational Schema for teams, engineers, metrics, and esa_reports',
-    code: `-- FLOWFORGE MVP V1 DATABASE SCHEMA
--- PostgreSQL schema for Engineering Stability Platform (ESP)
-
-CREATE TABLE IF NOT EXISTS teams (
+    code: `CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS engineers (
+CREATE TABLE engineers (
     id SERIAL PRIMARY KEY,
     team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
     active_tasks INTEGER DEFAULT 0,
     completed_tasks INTEGER DEFAULT 0,
     hours_worked NUMERIC DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS metrics (
+CREATE TABLE metrics (
     id SERIAL PRIMARY KEY,
     team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
-    load_factor NUMERIC DEFAULT 0.5,
-    slack_factor NUMERIC DEFAULT 0.2,
-    volatility_factor NUMERIC DEFAULT 0.3,
-    stability_score NUMERIC NOT NULL,
-    slack_liquidity NUMERIC NOT NULL,
-    burnout_index NUMERIC NOT NULL,
-    rating VARCHAR(50) NOT NULL,
+    stability_score NUMERIC,
+    slack_liquidity NUMERIC,
+    burnout_index NUMERIC,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS esa_reports (
+CREATE TABLE esa_reports (
     id SERIAL PRIMARY KEY,
     team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
     summary TEXT,
     recommendations TEXT,
-    stability_score NUMERIC NOT NULL,
-    slack_liquidity NUMERIC NOT NULL,
-    burnout_index NUMERIC NOT NULL,
-    rating VARCHAR(50) NOT NULL,
-    plan_30_day TEXT,
+    stability_score NUMERIC,
+    slack_liquidity NUMERIC,
+    burnout_index NUMERIC,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Initial seed data for immediate demonstration
+-- Seed Anchor Pod
 INSERT INTO teams (id, name) VALUES (1, 'Texas Core Platform') ON CONFLICT DO NOTHING;
 INSERT INTO engineers (team_id, name, active_tasks, completed_tasks, hours_worked) VALUES
 (1, 'Lead Architect', 8, 14, 48),
 (1, 'Senior Backend Eng', 6, 12, 42),
 (1, 'Senior Frontend Eng', 7, 10, 44),
 (1, 'DevOps Lead', 9, 8, 50)
-ON CONFLICT DO NOTHING;
-
-INSERT INTO metrics (team_id, load_factor, slack_factor, volatility_factor, stability_score, slack_liquidity, burnout_index, rating) VALUES
-(1, 0.80, 0.22, 0.28, 78.50, 22.00, 0.37, 'Stable')
-ON CONFLICT DO NOTHING;
-
-INSERT INTO esa_reports (team_id, summary, recommendations, stability_score, slack_liquidity, burnout_index, rating, plan_30_day) VALUES
-(1, 'Engineering Stability Assessment for Texas Core Platform indicates moderate delivery drag with 22% slack liquidity.', '1. Increase slack reserves to 25% floor. 2. Shift secondary tasks off DevOps. 3. Stabilize critical path work items.', 78.50, 22.00, 0.37, 'Stable', 'Week 1: Audit WIP limits. Week 2: Implement 15% slack window. Week 3: Rebalance on-call rotation. Week 4: Recalculate ESA metrics.')
 ON CONFLICT DO NOTHING;`
   },
   {
     id: 'stability_score_py',
     name: 'core/stability_score.py',
     path: 'flowforge-mvp/core/stability_score.py',
-    language: 'python',
-    description: 'Empirical Stability Score Algorithm (100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V)))',
-    code: `"""
-FlowForge Core: Stability Score Algorithm
-Calculates a single score in [0, 100] reflecting overall team delivery stability.
+    description: 'Stability Score Algorithm: 100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V))',
+    code: `def calculate_stability_score(load: float, slack: float, volatility: float) -> float:
+    l = max(0.0, min(1.0, float(load)))
+    s = max(0.0, min(1.0, float(slack)))
+    v = max(0.0, min(1.0, float(volatility)))
 
-Inputs:
-  load (L in [0, 1]): How close the team is to overload (avg active tasks / target capacity)
-  slack (S in [0, 1]): Buffer capacity available (available capacity / total capacity)
-  volatility (V in [0, 1]): Erratic fluctuation in daily WIP / commits (std dev / baseline)
-
-Formula:
-  StabilityScore = 100 * (0.4 * (1 - L) + 0.4 * S + 0.2 * (1 - V))
-
-Interpretation:
-  0 - 49: Critical
-  50 - 69: Fragile
-  70 - 84: Stable
-  85 - 100: Excellent
-"""
-
-def calculate_stability_score(load: float, slack: float, volatility: float) -> float:
-    # Clamp inputs to [0, 1]
-    l_clamped = max(0.0, min(1.0, float(load)))
-    s_clamped = max(0.0, min(1.0, float(slack)))
-    v_clamped = max(0.0, min(1.0, float(volatility)))
-
-    score = 100.0 * (
-        0.4 * (1.0 - l_clamped) +
-        0.4 * s_clamped +
-        0.2 * (1.0 - v_clamped)
-    )
-
+    score = (1.0 - l) * 40.0 + s * 40.0 + (1.0 - v) * 20.0
     return round(score, 2)
-
 
 def get_stability_rating(score: float) -> str:
     if score >= 85:
@@ -330,35 +577,13 @@ def get_stability_rating(score: float) -> str:
     id: 'slack_liquidity_py',
     name: 'core/slack_liquidity.py',
     path: 'flowforge-mvp/core/slack_liquidity.py',
-    language: 'python',
-    description: 'Slack Liquidity Formula (100 * max(0, SlackCapacity / TotalCapacity))',
-    code: `"""
-FlowForge Core: Slack Liquidity Formula
-Calculates the usable engineering buffer percentage.
-
-Define:
-  TotalCapacity: Ideal max work capacity per sprint/cycle (story points or hours)
-  UsedCapacity: Actual committed work
-  SlackCapacity = TotalCapacity - UsedCapacity
-
-Formula:
-  SlackLiquidity = 100 * max(0, SlackCapacity / TotalCapacity)
-
-Interpretation:
-  < 15%: Slack Critical (High bottleneck risk, any unexpected issue causes sprint slippage)
-  15% - 29.9%: Slack Tight (Operates near capacity with minimal margin for error)
-  >= 30%: Slack Healthy (Resilient buffer to absorb bugs, outages, and cognitive fatigue)
-"""
-
-def calculate_slack_liquidity(total_capacity: float, committed_capacity: float) -> float:
+    description: 'Slack Liquidity Formula: 100 * max(0, SlackCapacity / TotalCapacity)',
+    code: `def calculate_slack_liquidity(total_capacity: float, committed_capacity: float) -> float:
     if total_capacity <= 0:
         return 0.0
 
-    slack_capacity = total_capacity - committed_capacity
-    ratio = max(0.0, slack_capacity / total_capacity)
-
-    return round(ratio * 100.0, 2)
-
+    slack = max(0.0, total_capacity - committed_capacity)
+    return round((slack / total_capacity) * 100.0, 2)
 
 def get_slack_tier(slack_percent: float) -> str:
     if slack_percent < 15.0:
@@ -372,36 +597,14 @@ def get_slack_tier(slack_percent: float) -> str:
     id: 'burnout_index_py',
     name: 'core/burnout_index.py',
     path: 'flowforge-mvp/core/burnout_index.py',
-    language: 'python',
-    description: 'Burnout Index Formula (0.5*L + 0.3*(1-S) + 0.2*V)',
-    code: `"""
-FlowForge Core: Burnout Index Formula
-Calculates team burnout probability score in [0.0, 1.0].
+    description: 'Burnout Index Formula: 0.5*L + 0.3*(1-S) + 0.2*V',
+    code: `def calculate_burnout(load: float, slack: float, volatility: float) -> float:
+    l = max(0.0, min(1.0, float(load)))
+    s = max(0.0, min(1.0, float(slack)))
+    v = max(0.0, min(1.0, float(volatility)))
 
-Inputs:
-  load (L in [0, 1]): Team load factor
-  slack (S in [0, 1]): Slack buffer factor
-  volatility (V in [0, 1]): Work volatility factor
-
-Formula:
-  BurnoutIndex = 0.5 * L + 0.3 * (1 - S) + 0.2 * V
-
-Interpretation:
-  0.0 - 0.20: Low Risk (Sustainable pacing, healthy rotation)
-  0.20 - 0.40: Emerging Risk (Early warning signs, spot exhaustion)
-  0.40 - 0.60: Concerning (Sustained cognitive drag, quality dips)
-  0.60 - 1.00: High Risk (Imminent turnover, critical path vulnerability)
-"""
-
-def calculate_burnout(load: float, slack: float, volatility: float) -> float:
-    l_clamped = max(0.0, min(1.0, float(load)))
-    s_clamped = max(0.0, min(1.0, float(slack)))
-    v_clamped = max(0.0, min(1.0, float(volatility)))
-
-    risk = 0.5 * l_clamped + 0.3 * (1.0 - s_clamped) + 0.2 * v_clamped
-
+    risk = 0.5 * l + 0.3 * (1.0 - s) + 0.2 * v
     return round(risk, 2)
-
 
 def get_burnout_risk_label(burnout_val: float) -> str:
     if burnout_val < 0.20:
@@ -417,119 +620,29 @@ def get_burnout_risk_label(burnout_val: float) -> str:
     id: 'esa_generator_py',
     name: 'esa/esa_generator.py',
     path: 'flowforge-mvp/esa/esa_generator.py',
-    language: 'python',
-    description: 'Enterprise Stability Assessment Generator (30-day plan, findings, certification)',
-    code: `"""
-FlowForge ESA Generator: Enterprise Stability Assessment
-Generates a structured report and 30-day stability plan based on core telemetry.
-"""
-from datetime import datetime
-from typing import Dict, Any, List
+    description: 'Enterprise Stability Assessment Generator (Summary, Findings, 30-Day Plan)',
+    code: `from datetime import datetime
 
-def generate_esa(
-    team_name: str,
-    stability_score: float,
-    slack_liquidity: float,
-    burnout_index: float,
-    load_factor: float = 0.80,
-    volatility: float = 0.28
-) -> Dict[str, Any]:
-    
-    # Categorizations
-    if stability_score >= 85:
-        rating = "Excellent"
-    elif stability_score >= 70:
-        rating = "Stable"
-    elif stability_score >= 50:
-        rating = "Fragile"
-    else:
-        rating = "Critical"
-
-    # Targeted Findings
-    findings: List[Dict[str, str]] = []
-    if load_factor > 0.75:
-        findings.append({
-            "category": "Load Concentration",
-            "observation": f"Team load factor is elevated at {round(load_factor * 100)}%, concentrated in senior technical roles.",
-            "impact": "Single-point-of-failure risk on critical path merges and pull request reviews."
-        })
-    if slack_liquidity < 25.0:
-        findings.append({
-            "category": "Slack Liquidity Deficit",
-            "observation": f"Usable buffer is currently {slack_liquidity}%, below the 25% recommended baseline.",
-            "impact": "Unplanned incidents or bug regressions directly jeopardize milestone release dates."
-        })
-    if burnout_index >= 0.35:
-        findings.append({
-            "category": "Cognitive Burnout Exposure",
-            "observation": f"Burnout Index is {burnout_index} ('{rating}'), reflecting sustained sprint pressure.",
-            "impact": "Elevated fatigue leads to defect escape rate spikes and key engineer attrition risk."
-        })
-    if volatility > 0.25:
-        findings.append({
-            "category": "Work Volatility",
-            "observation": f"Daily work item fluctuation index is {volatility}.",
-            "impact": "High variance in daily queue depth causes context switching and pipeline stalls."
-        })
-
-    # Actionable 30-Day Stability Plan
-    plan_30_day: List[Dict[str, str]] = [
-        {
-            "phase": "Week 1: Triage & WIP Cap",
-            "action": "Cap active in-progress tasks at 2 per engineer and establish a strict 15% slack floor.",
-            "expected_outcome": "Immediate drop in multitasking drag and 18% reduction in context switching."
-        },
-        {
-            "phase": "Week 2: Critical Path Decoupling",
-            "action": "Offload architectural review gates to secondary pod members and decouple frontend scaffolding from API mocks.",
-            "expected_outcome": "Lead architect load decreases from 85%+ to sustainable 65% baseline."
-        },
-        {
-            "phase": "Week 3: Capacity Buffering (FFX Exchange)",
-            "action": "Introduce dedicated 4-hour micro-slack windows on Tuesdays and Thursdays for debt remediation.",
-            "expected_outcome": "Slack Liquidity rises back toward the 25-30% healthy operational zone."
-        },
-        {
-            "phase": "Week 4: ESA Verification & Recertification",
-            "action": "Run secondary automated ESA diagnostic scan and confirm delivery variance has stabilized under +/- 5%.",
-            "expected_outcome": "Team achieves certified 'Stable' or 'Excellent' rating and unlocks sprint predictability."
-        }
-    ]
-
-    recommendations = [
-        "Enforce a mandatory 15% Slack Liquidity floor across upcoming sprint commitments",
-        "Redistribute review workload away from overloaded senior architects",
-        "Adopt continuous automated ESA telemetry to prevent burnout regressions",
-        "Claim Texas Tax Code § 151.351 statutory 20% sales tax exemption on stability tooling"
-    ]
-
+def generate_esa(team_name: str, stability_score: float, slack: float, burnout: float):
     return {
-        "esa_id": f"ESA-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}",
+        "generated": str(datetime.utcnow()),
         "team_name": team_name,
-        "generated_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
         "stability_score": stability_score,
-        "slack_liquidity": slack_liquidity,
-        "burnout_index": burnout_index,
-        "rating": rating,
-        "status": "CERTIFIED_ASSESSMENT",
-        "findings": findings,
-        "recommendations": recommendations,
-        "plan_30_day": plan_30_day,
-        "tax_note": "CFO TAX PRO LLC (dba FlowForge) • Texas Entity #08051239 • Texas Tax Code § 151.351 Active",
-        "report_url": f"https://flowforge.fit/esa/report/{datetime.utcnow().strftime('%Y%m%d%H%M%S')}"
+        "slack_liquidity": slack,
+        "burnout_index": burnout,
+        "rating": (
+            "Excellent" if stability_score >= 85 else
+            "Stable" if stability_score >= 70 else
+            "Fragile" if stability_score >= 50 else
+            "Critical"
+        ),
+        "recommendations": [
+            "Increase slack reserves to 15% minimum statutory floor",
+            "Reduce workload concentration away from lead technical architect",
+            "Monitor weekly burnout indicators before sprint commitments",
+            "Protect critical path contributors via micro-slack windows"
+        ]
     }`
-  },
-  {
-    id: 'requirements_txt',
-    name: 'requirements.txt',
-    path: 'flowforge-mvp/requirements.txt',
-    language: 'plaintext',
-    description: 'Python package dependencies for FlowForge MVP backend',
-    code: `flask==3.0.3
-gunicorn==23.0.0
-psycopg2-binary==2.9.9
-sqlalchemy==2.0.32
-requests==2.32.3`
   }
 ];
 
@@ -537,7 +650,9 @@ export const MvpDashboardPrototypeView: React.FC<MvpDashboardPrototypeProps> = (
   onNavigateToAiCloser
 }) => {
   // Navigation Section Sub-tabs
-  const [activeSection, setActiveSection] = useState<'dashboard' | 'api_console' | 'python_files' | 'outreach'>('dashboard');
+  const [activeSection, setActiveSection] = useState<
+    'dashboard' | 'checklist' | 'pilot_proposal' | 'outreach_10' | 'api_console' | 'python_files'
+  >('dashboard');
 
   // Team & Date State
   const [selectedTeam, setSelectedTeam] = useState<string>('Texas Core Platform');
@@ -561,12 +676,64 @@ export const MvpDashboardPrototypeView: React.FC<MvpDashboardPrototypeProps> = (
   const [activeEsaReport, setActiveEsaReport] = useState<EsaReportData | null>(null);
   const [copiedEsaNotification, setCopiedEsaNotification] = useState<boolean>(false);
 
-  // Outreach Message State
-  const [outreachProspectName, setOutreachProspectName] = useState<string>('Sarah Jenkins');
-  const [outreachCompany, setOutreachCompany] = useState<string>('WP Engine');
-  const [outreachRole, setOutreachRole] = useState<string>('VP of Engineering');
-  const [outreachOffer, setOutreachOffer] = useState<'ESA_3000' | 'DASHBOARD_1500'>('ESA_3000');
-  const [copiedPitch, setCopiedPitch] = useState<boolean>(false);
+  // 10 CTO Outreach Messages State
+  const [activeMessageId, setActiveMessageId] = useState<number>(1);
+  const [outreachProspectName, setOutreachProspectName] = useState<string>('Alex');
+  const [outreachCompany, setOutreachCompany] = useState<string>('Acme Cloud');
+  const [copiedMessageNotice, setCopiedMessageNotice] = useState<boolean>(false);
+  const [copiedAllMessagesNotice, setCopiedAllMessagesNotice] = useState<boolean>(false);
+
+  // Pilot Proposal State
+  const [proposalClientName, setProposalClientName] = useState<string>('Apex Cloud Technologies');
+  const [proposalPreparedDate, setProposalPreparedDate] = useState<string>('October 5, 2026');
+  const [copiedProposalNotice, setCopiedProposalNotice] = useState<boolean>(false);
+
+  // Interactive Checklist State
+  const [checklistTasks, setChecklistTasks] = useState<Record<string, boolean>>({
+    d1_t1: true,
+    d1_t2: true,
+    d1_t3: true,
+    d1_t4: true,
+    d1_t5: true,
+    d1_t6: true,
+    d1_b1: true,
+    d1_b2: true,
+    d1_b3: true,
+    d2_t1: true,
+    d2_t2: true,
+    d2_t3: true,
+    d2_t4: true,
+    d2_b1: true,
+    d2_b2: true,
+    d3_t1: true,
+    d3_t2: true,
+    d3_t3: true,
+    d3_t4: true,
+    d4_b1: false,
+    d4_b2: false,
+    d4_b3: false,
+    d4_b4: false,
+    d5_b1: false,
+    d5_b2: false,
+    d5_b3: false,
+    d5_b4: false,
+    d6_t1: false,
+    d6_t2: false,
+    d6_b1: false,
+    d6_b2: false,
+    d7_b1: false,
+    d7_b2: false,
+    d7_b3: false,
+    d7_b4: false
+  });
+
+  const toggleChecklistTask = (taskId: string) => {
+    setChecklistTasks(prev => ({ ...prev, [taskId]: !prev[taskId] }));
+  };
+
+  const totalTasks = Object.keys(checklistTasks).length;
+  const completedTasksCount = Object.values(checklistTasks).filter(Boolean).length;
+  const checklistCompletionPct = Math.round((completedTasksCount / totalTasks) * 100);
 
   // Python Code Inspector State
   const [selectedFileId, setSelectedFileId] = useState<string>('app_py');
@@ -648,35 +815,99 @@ export const MvpDashboardPrototypeView: React.FC<MvpDashboardPrototypeProps> = (
     ]);
   };
 
-  const getOutreachText = () => {
-    return `Subject: 30-Day Stability Assessment for Your Engineering Team
+  const currentMessage = CTO_10_MESSAGES.find(m => m.id === activeMessageId) || CTO_10_MESSAGES[0];
 
-Hi ${outreachProspectName},
-
-I built FlowForge, a Stability OS for engineering teams. It measures team load, slack, and burnout risk, then gives you a 30-day plan to stabilize delivery.
-
-I'd like to run a one-time 30-day Stability Assessment on your ${outreachCompany} engineering team. You'll get:
-
-• Stability Score (0–100)
-• Slack Liquidity (how much buffer you really have)
-• Burnout Index (who's at risk and why)
-• A concrete 30-day stability plan
-
-${outreachOffer === 'ESA_3000'
-  ? `I'm offering this initial 48-Hour ESA Audit at $3,000 under Texas Tax Code § 151.351 (20% statutory exemption applies, saving you $600 in tax).`
-  : `We offer this via our live continuous FlowForge Stability Core dashboard at $1,500/month recurring.`}
-
-Would you be open to a quick 15-minute call to see if this fits your current delivery and burnout challenges?
-
-— Chuck
-Founder, FlowForge (flowforge.fit)
-CFO TAX PRO LLC • Sachse/Austin, TX`;
+  const getPersonalizedMessageText = (msg: CtoOutreachMessageItem) => {
+    return msg.body
+      .replace(/\{\{FirstName\}\}/g, outreachProspectName || 'there')
+      .replace(/\{\{Company\}\}/g, outreachCompany || 'your team');
   };
 
-  const handleCopyPitch = () => {
-    navigator.clipboard.writeText(getOutreachText());
-    setCopiedPitch(true);
-    setTimeout(() => setCopiedPitch(false), 2500);
+  const handleCopyCurrentMessage = () => {
+    const fullText = `Subject: ${currentMessage.subject}\n\n${getPersonalizedMessageText(currentMessage)}`;
+    navigator.clipboard.writeText(fullText);
+    setCopiedMessageNotice(true);
+    setTimeout(() => setCopiedMessageNotice(false), 2000);
+  };
+
+  const handleCopyAllMessages = () => {
+    const allText = CTO_10_MESSAGES.map(m => (
+      `==============================\n${m.title} (${m.angle})\nSubject: ${m.subject}\n==============================\n\n${getPersonalizedMessageText(m)}\n\n`
+    )).join('\n');
+    navigator.clipboard.writeText(allText);
+    setCopiedAllMessagesNotice(true);
+    setTimeout(() => setCopiedAllMessagesNotice(false), 2500);
+  };
+
+  const getPilotProposalText = () => {
+    return `FLOWFORGE PILOT PROPOSAL
+FlowForge Engineering Stability Assessment
+Prepared for: ${proposalClientName}
+Date: ${proposalPreparedDate}
+Founder & Lead Assessor: Chuck Oduagu (FlowForge.fit)
+
+============================================================
+EXECUTIVE SUMMARY
+============================================================
+FlowForge helps engineering leaders identify hidden delivery risk, burnout risk, and capacity bottlenecks before they impact execution.
+
+Our 30-day Engineering Stability Assessment provides an executive-level view of team health and a practical action plan for improving engineering stability.
+
+============================================================
+WHAT YOU RECEIVE (CORE DELIVERABLES)
+============================================================
+1. Stability Score
+   Measures engineering stability on a 0–100 scale using empirical queueing physics:
+   StabilityScore = 100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V))
+
+2. Slack Liquidity Analysis
+   Identifies available capacity and operational buffer to absorb unplanned defects:
+   SlackLiquidity = 100 * max(0, SlackCap / TotalCap) [15% statutory safe floor]
+
+3. Burnout Index
+   Highlights workload concentration and engineer exhaustion risk across pods:
+   BurnoutIndex = 0.5*L + 0.3*(1-S) + 0.2*V
+
+4. Executive Stability Report
+   Professional diagnostic assessment document including:
+   • Findings & Bottleneck Mapping
+   • Risk Summary
+   • Actionable Recommendations
+   • Structured 30-Day Stability Improvement Plan
+
+============================================================
+ASSESSMENT TIMELINE (30-DAY ENGAGEMENT)
+============================================================
+• Week 1: Data Collection (GitHub / Jira telemetry connection)
+• Week 2: Analysis & Scoring (Empirical queueing calculations)
+• Week 3: Risk Review (Review load concentration & bottlenecks)
+• Week 4: Executive Readout (Formal executive presentation & 30-Day Plan)
+
+============================================================
+INVESTMENT
+============================================================
+• Engineering Stability Assessment (ESA):
+  $3,000 Fixed Fee
+  Includes Assessment, Executive Report, and Leadership Review Session.
+  Eligible for Texas Tax Code § 151.351 statutory 20% sales tax exemption ($600 savings).
+
+• Optional Ongoing Monitoring (FlowForge Stability Core):
+  $1,500 / month recurring
+  Includes continuous Stability Dashboard, Monthly ESA recertification, automated burnout alerts, and delivery risk tracking.
+
+============================================================
+CONTACT & AUTHORIZATION
+============================================================
+Chuck Oduagu
+Founder, FlowForge
+Email: chuck@flowforge.fit | Web: https://flowforge.fit
+Entity: CFO TAX PRO LLC (Texas SOS #08051239)`;
+  };
+
+  const handleCopyProposal = () => {
+    navigator.clipboard.writeText(getPilotProposalText());
+    setCopiedProposalNotice(true);
+    setTimeout(() => setCopiedProposalNotice(false), 2000);
   };
 
   const handleCopyHtmlReport = () => {
@@ -703,7 +934,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
 </html>`;
     navigator.clipboard.writeText(html);
     setCopiedEsaNotification(true);
-    setTimeout(() => setCopiedEsaNotification(false), 2500);
+    setTimeout(() => setCopiedEsaNotification(false), 2000);
   };
 
   // API Console Preset Handler
@@ -748,9 +979,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
     try {
       const options: RequestInit = {
         method: apiMethod,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       };
       if (apiMethod === 'POST' && apiBodyText) {
         options.body = apiBodyText;
@@ -827,36 +1056,23 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
   const handleCopyCode = () => {
     navigator.clipboard.writeText(selectedFile.code);
     setCopiedCodeNotice(true);
-    setTimeout(() => setCopiedCodeNotice(false), 2500);
-  };
-
-  const handleDownloadFile = () => {
-    const blob = new Blob([selectedFile.code], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = selectedFile.name.split('/').pop() || selectedFile.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    setTimeout(() => setCopiedCodeNotice(false), 2000);
   };
 
   return (
     <div className="space-y-8 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto text-slate-100">
-      {/* Top Banner: Verification & Revenue Commitment */}
+      {/* Top Banner */}
       <div className="bg-gradient-to-r from-cyan-950/70 via-slate-900 to-indigo-950/70 border border-cyan-800/40 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
         <div className="space-y-2 text-center md:text-left">
           <div className="inline-flex items-center space-x-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-full text-xs font-mono font-bold">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>FLOWFORGE 0.1 MVP SPECIFICATION — SHORTEST PATH TO REVENUE</span>
+            <span>FLOWFORGE 0.1 MVP — REVENUE EXECUTION MODE</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-            Engineering Stability MVP Dashboard
+            Engineering Stability Platform (MVP)
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
-            1 Dashboard • 1 Report • 1 Customer • 1 Invoice. Built strictly from empirical queueing mathematics:
-            <code className="text-cyan-300 ml-1 font-mono text-[11px]">StabilityScore = 100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V))</code>.
+            Target: <strong>Customer #1 in 30 Days</strong>. 7-Day Execution Checklist • 1-Page Pilot Proposal • 10 CTO Outreach Messages • Standalone Python MVP.
           </p>
         </div>
 
@@ -890,7 +1106,43 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
           }`}
         >
           <ActivityIcon className="w-4 h-4" />
-          <span>📊 1-Page Dashboard (Prototype)</span>
+          <span>📊 1-Page Dashboard</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('checklist')}
+          className={`px-4 py-2 rounded-xl font-bold transition flex items-center space-x-2 whitespace-nowrap cursor-pointer ${
+            activeSection === 'checklist'
+              ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 shadow-md'
+              : 'text-amber-400/90 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-500/20'
+          }`}
+        >
+          <ListChecksIcon className="w-4 h-4" />
+          <span>🚀 7-Day Checklist ({checklistCompletionPct}%)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('pilot_proposal')}
+          className={`px-4 py-2 rounded-xl font-bold transition flex items-center space-x-2 whitespace-nowrap cursor-pointer ${
+            activeSection === 'pilot_proposal'
+              ? 'bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 shadow-md'
+              : 'text-emerald-400/90 hover:text-emerald-300 hover:bg-emerald-950/40 border border-emerald-500/20'
+          }`}
+        >
+          <FileTextIcon className="w-4 h-4" />
+          <span>📄 Pilot Proposal ($3,000)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('outreach_10')}
+          className={`px-4 py-2 rounded-xl font-bold transition flex items-center space-x-2 whitespace-nowrap cursor-pointer ${
+            activeSection === 'outreach_10'
+              ? 'bg-gradient-to-r from-purple-400 to-indigo-500 text-white shadow-md'
+              : 'text-purple-400/90 hover:text-purple-300 hover:bg-purple-950/40 border border-purple-500/20'
+          }`}
+        >
+          <MailIcon className="w-4 h-4" />
+          <span>📧 10 CTO Outreach Messages</span>
         </button>
 
         <button
@@ -917,19 +1169,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
           }`}
         >
           <Code2Icon className="w-4 h-4" />
-          <span>🐍 Python MVP Source & Schema</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('outreach')}
-          className={`px-4 py-2 rounded-xl font-bold transition flex items-center space-x-2 whitespace-nowrap cursor-pointer ${
-            activeSection === 'outreach'
-              ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
-        >
-          <DollarSignIcon className="w-4 h-4" />
-          <span>✉️ First Customer Outreach ($3,000)</span>
+          <span>🐍 Python MVP Source</span>
         </button>
       </div>
 
@@ -1045,7 +1285,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   <span className="text-xl font-normal text-slate-500 ml-1">/ 100</span>
                 </div>
                 <div className="text-xs text-slate-400 mt-1">
-                  Target: <strong className="text-slate-200">≥ 70.0</strong> for delivery guarantee
+                  Formula: <code className="text-cyan-300 font-mono text-[11px]">100 * (0.4*(1-L) + 0.4*S + 0.2*(1-V))</code>
                 </div>
               </div>
 
@@ -1094,7 +1334,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   <span className="text-xl font-normal text-slate-500 ml-1">%</span>
                 </div>
                 <div className="text-xs text-slate-400 mt-1">
-                  Minimum healthy floor: <strong className="text-amber-300">15.0%</strong>
+                  Minimum healthy buffer floor: <strong className="text-amber-300">15.0%</strong>
                 </div>
               </div>
 
@@ -1142,7 +1382,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   <span className="text-xl font-normal text-slate-500 ml-1">/ 1.00</span>
                 </div>
                 <div className="text-xs text-slate-400 mt-1">
-                  Threshold: <strong className="text-rose-300">&gt; 0.40</strong> triggers burnout alert
+                  Threshold: <strong className="text-rose-300">&gt; 0.40</strong> triggers burnout warning
                 </div>
               </div>
 
@@ -1176,9 +1416,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                 <h2 className="text-xl font-extrabold text-white">
                   Live Parameter Tuning (0.0 – 1.0 Normalized Inputs)
                 </h2>
-                <p className="text-xs text-slate-400">
-                  Adjust the core variables to test how real load, slack buffers, and queue volatility shift team stability in real time.
-                </p>
               </div>
             </div>
 
@@ -1198,9 +1435,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   onChange={(e) => setLoadFactor(Number(e.target.value))}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                 />
-                <p className="text-[11px] text-slate-400">
-                  Ratio of active in-flight tickets per engineer vs target safe threshold.
-                </p>
               </div>
 
               {/* Slider 2: Slack S */}
@@ -1218,9 +1452,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   onChange={(e) => setSlackFactor(Number(e.target.value))}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
                 />
-                <p className="text-[11px] text-slate-400">
-                  Uncommitted buffer available to absorb critical defects and context switching.
-                </p>
               </div>
 
               {/* Slider 3: Volatility V */}
@@ -1238,9 +1469,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                   onChange={(e) => setVolatilityFactor(Number(e.target.value))}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-400"
                 />
-                <p className="text-[11px] text-slate-400">
-                  Standard deviation of daily WIP items vs historical variance baseline.
-                </p>
               </div>
             </div>
           </div>
@@ -1302,12 +1530,455 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
         </div>
       )}
 
-      {/* ================= SECTION 2: LIVE MVP API CONSOLE ================= */}
+      {/* ================= SECTION 2: 7-DAY EXECUTION CHECKLIST ================= */}
+      {activeSection === 'checklist' && (
+        <div className="space-y-6">
+          {/* Header Banner */}
+          <div className="bg-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <div className="inline-flex items-center space-x-2 bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full text-xs font-mono font-bold">
+                  <ListChecksIcon className="w-3.5 h-3.5" />
+                  <span>FLOWFORGE MVP TO FIRST INVOICE</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
+                  7-Day Founder Execution Checklist
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300">
+                  Target: First ESA Sold ($3,000) • Target: First Monthly Customer ($1,500 MRR)
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => window.print()}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                >
+                  <PrinterIcon className="w-3.5 h-3.5" />
+                  <span>Print Checklist</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-mono">
+                <span className="text-slate-400">Sprint Progress: <strong className="text-amber-300">{completedTasksCount} / {totalTasks} Tasks Completed</strong></span>
+                <span className="text-emerald-400 font-bold">{checklistCompletionPct}% Complete</span>
+              </div>
+              <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
+                <div
+                  className="h-full bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-300"
+                  style={{ width: `${checklistCompletionPct}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Days Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {CHECKLIST_DAYS.map((dayItem) => {
+              const dayTasks = dayItem.tasks;
+              const dayCompletedCount = dayTasks.filter(t => checklistTasks[t.id]).length;
+              const isDayDone = dayCompletedCount === dayTasks.length;
+
+              return (
+                <div
+                  key={dayItem.day}
+                  className={`bg-slate-900 border rounded-3xl p-6 space-y-4 shadow-xl transition ${
+                    isDayDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-slate-800'
+                  }`}
+                >
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                      <span className="font-mono text-xs font-bold text-amber-400">{dayItem.title}</span>
+                      <div className="text-xs text-slate-400 mt-0.5">
+                        Outcome: <strong className="text-slate-200">{dayItem.targetOutcome}</strong>
+                      </div>
+                    </div>
+                    <span className={`text-[11px] font-mono px-2 py-0.5 rounded-full font-bold border ${
+                      isDayDone ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50' : 'bg-slate-950 text-slate-400 border-slate-800'
+                    }`}>
+                      {dayCompletedCount}/{dayTasks.length} Done
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-xs">
+                    {dayTasks.map((t) => {
+                      const checked = !!checklistTasks[t.id];
+                      return (
+                        <label
+                          key={t.id}
+                          className={`flex items-start space-x-2.5 p-2 rounded-xl transition cursor-pointer select-none ${
+                            checked ? 'bg-emerald-950/30 text-slate-300 line-through' : 'hover:bg-slate-850 text-white'
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() => toggleChecklistTask(t.id)}
+                            className="mt-0.5 w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-0 cursor-pointer accent-amber-500 shrink-0"
+                          />
+                          <div className="leading-snug">
+                            <span className={`font-mono text-[10px] uppercase font-bold mr-1.5 px-1.5 py-0.5 rounded ${
+                              t.category === 'technical' ? 'bg-cyan-950 text-cyan-400' : 'bg-amber-950 text-amber-400'
+                            }`}>
+                              {t.category}
+                            </span>
+                            <span>{t.text}</span>
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ================= SECTION 3: 1-PAGE PILOT PROPOSAL ================= */}
+      {activeSection === 'pilot_proposal' && (
+        <div className="space-y-6">
+          {/* Header Controls */}
+          <div className="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest flex items-center space-x-1.5">
+                  <FileTextIcon className="w-3.5 h-3.5" />
+                  <span>OFFICIAL EXECUTIVE PILOT DOCUMENT</span>
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
+                  1-Page Engineering Stability Assessment Proposal
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300">
+                  Ready to send to CTOs, VPs of Engineering, and Platform Leads. $3,000 Fixed Fee.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleCopyProposal}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                >
+                  {copiedProposalNotice ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3.5 h-3.5" />}
+                  <span>{copiedProposalNotice ? 'Copied Proposal!' : 'Copy Proposal Text'}</span>
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow"
+                >
+                  <PrinterIcon className="w-3.5 h-3.5" />
+                  <span>Print / Save PDF</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Customization Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="space-y-1">
+                <label className="text-slate-400 font-semibold">Target Client Organization:</label>
+                <input
+                  type="text"
+                  value={proposalClientName}
+                  onChange={(e) => setProposalClientName(e.target.value)}
+                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-slate-400 font-semibold">Proposal Date:</label>
+                <input
+                  type="text"
+                  value={proposalPreparedDate}
+                  onChange={(e) => setProposalPreparedDate(e.target.value)}
+                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Formal Pilot Proposal Sheet */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 space-y-8 shadow-2xl font-sans text-slate-200 max-w-4xl mx-auto">
+            {/* Document Header */}
+            <div className="border-b-2 border-cyan-500 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span className="text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider block">
+                  FLOWFORGE STABILITY OS • EXECUTIVE PILOT PROPOSAL
+                </span>
+                <h1 className="text-2xl sm:text-3xl font-black text-white mt-1">
+                  FlowForge Engineering Stability Assessment
+                </h1>
+                <p className="text-xs text-slate-400 font-mono mt-1">
+                  Prepared For: <strong className="text-white">{proposalClientName}</strong> • Date: {proposalPreparedDate}
+                </p>
+              </div>
+              <div className="text-right sm:text-right shrink-0">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/50">
+                  Fixed Fee: $3,000
+                </span>
+              </div>
+            </div>
+
+            {/* Executive Summary */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                1. Executive Summary
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                FlowForge helps engineering leaders identify hidden delivery risk, burnout risk, and capacity bottlenecks before they impact execution. Our 30-day Engineering Stability Assessment provides an executive-level view of team health and a practical action plan for improving engineering stability.
+              </p>
+            </div>
+
+            {/* What You Receive (Deliverables) */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                2. What You Receive (Deliverables)
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-cyan-400 text-sm">Stability Score</div>
+                  <p className="text-slate-300">Measures engineering stability on a verified 0–100 scale using empirical queueing mathematics.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-amber-400 text-sm">Slack Liquidity Analysis</div>
+                  <p className="text-slate-300">Quantifies engineering buffer capacity to absorb unplanned defects against the 15% statutory floor.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-rose-400 text-sm">Burnout Index</div>
+                  <p className="text-slate-300">Highlights workload concentration and burnout risk across engineering leads and critical paths.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-emerald-400 text-sm">Executive Stability Report</div>
+                  <p className="text-slate-300">Complete readout with Empirical Telemetry Findings, Risk Summary, Recommendations, and a 30-Day Plan.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Assessment Timeline */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                3. Engagement Timeline
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                {[
+                  { week: 'Week 1', title: 'Data Collection', desc: 'GitHub / Jira telemetry connection' },
+                  { week: 'Week 2', title: 'Analysis & Scoring', desc: 'Queue math & factor calculation' },
+                  { week: 'Week 3', title: 'Risk Review', desc: 'Deep-dive on bottlenecks & WIP' },
+                  { week: 'Week 4', title: 'Executive Readout', desc: 'Presentation & 30-Day Plan delivery' }
+                ].map((w, idx) => (
+                  <div key={idx} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                    <span className="font-mono text-cyan-400 font-bold block">{w.week}</span>
+                    <strong className="text-white block">{w.title}</strong>
+                    <span className="text-[11px] text-slate-400">{w.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Investment & Pricing */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
+                4. Investment Structure
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/50 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-emerald-400 text-sm">Engineering Stability Assessment</span>
+                    <span className="text-lg font-black text-white">$3,000 Fixed Fee</span>
+                  </div>
+                  <p className="text-slate-300">Includes Assessment, Executive Report, and Leadership Review Session.</p>
+                  <p className="text-[11px] text-emerald-400/90 font-mono">
+                    Eligible for Texas Tax Code § 151.351 statutory 20% sales tax exemption ($600 tax savings).
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-cyan-950/30 border border-cyan-500/50 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-cyan-400 text-sm">Optional Ongoing Monitoring</span>
+                    <span className="text-lg font-black text-white">$1,500 / month</span>
+                  </div>
+                  <p className="text-slate-300">FlowForge Stability Core continuous dashboard, monthly recertification ESA, burnout monitoring, and risk tracking.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Authorization Signatures */}
+            <div className="pt-6 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs font-mono">
+              <div className="space-y-2">
+                <span className="text-slate-400 block uppercase">Prepared By:</span>
+                <div className="text-white font-bold text-sm">Chuck Oduagu</div>
+                <div className="text-slate-400">Founder, FlowForge</div>
+                <div className="text-cyan-400">FlowForge.fit • CFO TAX PRO LLC</div>
+              </div>
+
+              <div className="space-y-2 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0 sm:pl-6">
+                <span className="text-slate-400 block uppercase">Accepted & Authorized By:</span>
+                <div className="border-b border-slate-700 h-6"></div>
+                <div className="text-slate-400">Authorized Signature ({proposalClientName})</div>
+                <div className="text-slate-500 text-[11px]">Date: ________________________</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= SECTION 4: 10 CTO OUTREACH MESSAGES ================= */}
+      {activeSection === 'outreach_10' && (
+        <div className="space-y-6">
+          {/* Header Banner */}
+          <div className="bg-slate-900 border border-purple-500/40 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <span className="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest flex items-center space-x-1.5">
+                  <MailIcon className="w-3.5 h-3.5" />
+                  <span>FOUNDER-LED OUTREACH PLAYBOOK</span>
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
+                  10 Personalized CTO Outreach Messages
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300">
+                  Target: 10 daily outreaches for 14 days $\rightarrow$ 10 Conversations $\rightarrow$ 3 Demos $\rightarrow$ 1 Pilot $\rightarrow$ 1 Paying Customer.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleCopyAllMessages}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                >
+                  {copiedAllMessagesNotice ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3.5 h-3.5" />}
+                  <span>{copiedAllMessagesNotice ? 'All Copied!' : 'Copy All 10 Messages'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Personalization Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="space-y-1">
+                <label className="text-slate-400 font-semibold">Prospect First Name ({"{{FirstName}}"}):</label>
+                <input
+                  type="text"
+                  value={outreachProspectName}
+                  onChange={(e) => setOutreachProspectName(e.target.value)}
+                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-slate-400 font-semibold">Prospect Company ({"{{Company}}"}):</label>
+                <input
+                  type="text"
+                  value={outreachCompany}
+                  onChange={(e) => setOutreachCompany(e.target.value)}
+                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Two-Column Playbook Viewer */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left: Message Directory */}
+            <div className="space-y-2 lg:col-span-1">
+              <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider px-2">
+                Available Angle Sequences ({CTO_10_MESSAGES.length})
+              </div>
+              <div className="space-y-1.5 max-h-[600px] overflow-y-auto no-scrollbar">
+                {CTO_10_MESSAGES.map((msg) => {
+                  const isSelected = msg.id === activeMessageId;
+                  return (
+                    <button
+                      key={msg.id}
+                      onClick={() => setActiveMessageId(msg.id)}
+                      className={`w-full text-left p-3 rounded-2xl border transition cursor-pointer ${
+                        isSelected
+                          ? 'bg-purple-950/60 border-purple-500 text-white shadow'
+                          : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-mono font-bold text-purple-400">#{msg.id}</span>
+                        <span className="text-[10px] text-slate-500 font-mono">{msg.angle}</span>
+                      </div>
+                      <div className="font-bold text-xs mt-1 truncate">{msg.subject}</div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right: Message Detail & Action Box */}
+            <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                  <div>
+                    <span className="font-mono text-xs font-bold text-purple-400">{currentMessage.title}</span>
+                    <div className="text-xs text-slate-400 font-medium mt-0.5">Angle: {currentMessage.angle}</div>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={handleCopyCurrentMessage}
+                      className="px-3.5 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-white text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow"
+                    >
+                      {copiedMessageNotice ? <CheckIcon className="w-3.5 h-3.5 text-white" /> : <CopyIcon className="w-3.5 h-3.5" />}
+                      <span>{copiedMessageNotice ? 'Copied!' : 'Copy Email'}</span>
+                    </button>
+                    <a
+                      href={`mailto:?subject=${encodeURIComponent(currentMessage.subject)}&body=${encodeURIComponent(getPersonalizedMessageText(currentMessage))}`}
+                      className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center space-x-1.5"
+                    >
+                      <SendIcon className="w-3.5 h-3.5" />
+                      <span>Open in Mail</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Subject Line Bar */}
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
+                  <div>
+                    <span className="text-slate-500 mr-2">Subject:</span>
+                    <strong className="text-cyan-300">{currentMessage.subject}</strong>
+                  </div>
+                </div>
+
+                {/* Body Content */}
+                <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-200 whitespace-pre-wrap leading-relaxed select-all">
+                  {getPersonalizedMessageText(currentMessage)}
+                </div>
+              </div>
+
+              {/* Bottom Quick Switcher */}
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <button
+                  disabled={activeMessageId <= 1}
+                  onClick={() => setActiveMessageId(prev => Math.max(1, prev - 1))}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 disabled:opacity-30 cursor-pointer"
+                >
+                  ← Previous Message
+                </button>
+                <span className="font-mono text-[11px] text-slate-500">
+                  Message {activeMessageId} of {CTO_10_MESSAGES.length}
+                </span>
+                <button
+                  disabled={activeMessageId >= CTO_10_MESSAGES.length}
+                  onClick={() => setActiveMessageId(prev => Math.min(CTO_10_MESSAGES.length, prev + 1))}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 disabled:opacity-30 cursor-pointer"
+                >
+                  Next Message →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= SECTION 5: LIVE MVP API CONSOLE ================= */}
       {activeSection === 'api_console' && (
         <div className="space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-              <div className="space-y-1">
+              <div>
                 <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest flex items-center space-x-1.5">
                   <TerminalIcon className="w-4 h-4" />
                   <span>MVP SPECIFICATION API EXECUTOR</span>
@@ -1315,9 +1986,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                 <h2 className="text-xl font-extrabold text-white">
                   Interactive REST Endpoints & Live Verification
                 </h2>
-                <p className="text-xs text-slate-400">
-                  Execute live HTTP queries against the FlowForge Node.js / Express and Python Flask API contracts.
-                </p>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -1453,12 +2121,12 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
         </div>
       )}
 
-      {/* ================= SECTION 3: PYTHON MVP FILES & DATABASE SCHEMA ================= */}
+      {/* ================= SECTION 6: PYTHON MVP FILES & DATABASE SCHEMA ================= */}
       {activeSection === 'python_files' && (
         <div className="space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-              <div className="space-y-1">
+              <div>
                 <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest flex items-center space-x-1.5">
                   <Code2Icon className="w-4 h-4" />
                   <span>PYTHON MVP & POSTGRESQL CODE REPOSITORY</span>
@@ -1466,25 +2134,15 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                 <h2 className="text-xl font-extrabold text-white">
                   Inspect & Export Standalone Production Assets
                 </h2>
-                <p className="text-xs text-slate-400">
-                  Ready-to-deploy Python Flask API, mathematical formulas, and PostgreSQL database schema.
-                </p>
               </div>
 
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleCopyCode}
-                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
                 >
                   {copiedCodeNotice ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3.5 h-3.5" />}
                   <span>{copiedCodeNotice ? 'Copied File!' : 'Copy File'}</span>
-                </button>
-                <button
-                  onClick={handleDownloadFile}
-                  className="px-3.5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow"
-                >
-                  <DownloadIcon className="w-3.5 h-3.5" />
-                  <span>Download File</span>
                 </button>
               </div>
             </div>
@@ -1527,92 +2185,6 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
         </div>
       )}
 
-      {/* ================= SECTION 4: OUTREACH PLAYBOOK ================= */}
-      {activeSection === 'outreach' && (
-        <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-              <div className="space-y-1">
-                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest flex items-center space-x-1.5">
-                  <DollarSignIcon className="w-4 h-4" />
-                  <span>PHASE 7: FIRST CUSTOMER REVENUE SCRIPT</span>
-                </span>
-                <h2 className="text-xl font-extrabold text-white">
-                  Target VP Engineering / CTO Outreach Generator
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Short, high-converting outreach message offering the 30-Day Stability Assessment with statutory Texas tax savings.
-                </p>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={handleCopyPitch}
-                  className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer shadow"
-                >
-                  {copiedPitch ? <CheckIcon className="w-3.5 h-3.5" /> : <CopyIcon className="w-3.5 h-3.5" />}
-                  <span>{copiedPitch ? 'Copied to Clipboard!' : 'Copy Cold Pitch'}</span>
-                </button>
-                <a
-                  href={`mailto:?subject=${encodeURIComponent('30-Day Stability Assessment for Your Engineering Team')}&body=${encodeURIComponent(getOutreachText())}`}
-                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center space-x-1.5"
-                >
-                  <SendIcon className="w-3.5 h-3.5" />
-                  <span>Open in Email</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Customization Inputs */}
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
-              <div className="space-y-1">
-                <label className="text-slate-400 font-semibold">Prospect Name:</label>
-                <input
-                  type="text"
-                  value={outreachProspectName}
-                  onChange={(e) => setOutreachProspectName(e.target.value)}
-                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-slate-400 font-semibold">Company Name:</label>
-                <input
-                  type="text"
-                  value={outreachCompany}
-                  onChange={(e) => setOutreachCompany(e.target.value)}
-                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-slate-400 font-semibold">Target Title:</label>
-                <input
-                  type="text"
-                  value={outreachRole}
-                  onChange={(e) => setOutreachRole(e.target.value)}
-                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-slate-400 font-semibold">Offer Type:</label>
-                <select
-                  value={outreachOffer}
-                  onChange={(e) => setOutreachOffer(e.target.value as any)}
-                  className="w-full bg-slate-950 text-white rounded-xl p-2.5 border border-slate-800 focus:border-cyan-500 focus:outline-none"
-                >
-                  <option value="ESA_3000">Offer #1: $3,000 One-Time ESA Audit</option>
-                  <option value="DASHBOARD_1500">Offer #2: $1,500/mo Stability Core</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Pitch Box */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800/90 font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed">
-              {getOutreachText()}
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ================= ESA REPORT MODAL ================= */}
       {isEsaModalOpen && activeEsaReport && (
         <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
@@ -1637,7 +2209,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleCopyHtmlReport}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center space-x-1 cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition flex items-center space-x-1 cursor-pointer"
                 >
                   <CopyIcon className="w-3.5 h-3.5" />
                   <span>{copiedEsaNotification ? 'Copied!' : 'Copy HTML'}</span>
@@ -1651,7 +2223,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
                 </button>
                 <button
                   onClick={() => setIsEsaModalOpen(false)}
-                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-xs font-bold cursor-pointer"
+                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-400 hover:text-white text-xs font-bold cursor-pointer"
                 >
                   ✕
                 </button>
@@ -1742,7 +2314,7 @@ CFO TAX PRO LLC • Sachse/Austin, TX`;
               <span className="font-mono text-[10px]">Cryptographic Proof: {activeEsaReport.certificationHash.slice(0, 24)}...</span>
               <button
                 onClick={() => setIsEsaModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-white font-bold cursor-pointer"
               >
                 Close Assessment
               </button>

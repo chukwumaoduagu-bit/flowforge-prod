@@ -44,6 +44,7 @@ import { CODEX_MANIFESTO } from '../data/codexUnifiedData';
 import { AiDealCloserView } from './AiDealCloserView';
 import { MvpRevenueExecutionView } from './MvpRevenueExecutionView';
 import { StabilityDashboardView } from './StabilityDashboardView';
+import { MvpDashboardPrototypeView } from './MvpDashboardPrototypeView';
 
 export type MarketingPageType = 
   | 'home' 
@@ -56,6 +57,7 @@ export type MarketingPageType =
   | 'contact' 
   | 'ai_closer' 
   | 'mvp_revenue' 
+  | 'mvp_dashboard'
   | 'stability_core';
 
 interface MarketingSiteProps {
@@ -221,6 +223,18 @@ export const MarketingSite: React.FC<MarketingSiteProps> = ({
               <span className="text-[9px] bg-amber-400 text-slate-950 px-1 py-0.2 rounded font-extrabold">MVP</span>
             </button>
             <button
+              onClick={() => handleSelectPage('mvp_dashboard')}
+              className={`px-3 py-1.5 rounded-lg font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                activePage === 'mvp_dashboard'
+                  ? 'bg-emerald-400 text-slate-950 font-black shadow-md'
+                  : 'text-emerald-300 hover:text-white bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/60'
+              }`}
+            >
+              <TargetIcon className="w-3.5 h-3.5 text-emerald-400" />
+              <span>MVP Dashboard</span>
+              <span className="text-[9px] bg-emerald-400 text-slate-950 px-1 py-0.2 rounded font-extrabold">$3k</span>
+            </button>
+            <button
               onClick={() => handleSelectPage('stability_core')}
               className={`px-3 py-1.5 rounded-lg font-medium transition flex items-center space-x-1.5 cursor-pointer ${
                 activePage === 'stability_core'
@@ -336,18 +350,25 @@ export const MarketingSite: React.FC<MarketingSiteProps> = ({
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
                 <button
-                  onClick={() => setIsDemoModalOpen(true)}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm transition shadow-xl shadow-cyan-950/60 flex items-center justify-center space-x-2 cursor-pointer"
+                  onClick={() => handleSelectPage('mvp_dashboard')}
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-black text-sm transition shadow-xl shadow-emerald-950/60 flex items-center justify-center space-x-2 cursor-pointer"
                 >
-                  <span>Start Free Pilot → Generate ESA in 30 Days</span>
+                  <DollarSignIcon className="w-4 h-4" />
+                  <span>Book Stability Assessment ($3,000 ESA)</span>
+                </button>
+                <button
+                  onClick={() => setIsDemoModalOpen(true)}
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm transition shadow-xl shadow-cyan-950/60 flex items-center justify-center space-x-2 cursor-pointer"
+                >
+                  <span>Start Free Pilot → 30 Days</span>
                   <ArrowRightIcon className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setActivePage('category')}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 font-semibold text-sm transition flex items-center justify-center space-x-2 cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 font-semibold text-sm transition flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <BookOpenIcon className="w-4 h-4 text-cyan-400" />
-                  <span>The Engineering Stability Manifesto</span>
+                  <span>The Manifesto</span>
                 </button>
               </div>
 
@@ -1551,6 +1572,15 @@ export const MarketingSite: React.FC<MarketingSiteProps> = ({
           <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-2 sm:p-6 shadow-2xl">
             <MvpRevenueExecutionView onNavigateToAiCloser={() => handleSelectPage('ai_closer')} />
           </div>
+        </div>
+      )}
+
+      {/* ================= PAGE: MVP DASHBOARD, CHECKLIST, PROPOSAL & 10 CTO MESSAGES ================= */}
+      {activePage === 'mvp_dashboard' && (
+        <div className="py-6 px-2 sm:px-4 max-w-7xl mx-auto">
+          <MvpDashboardPrototypeView
+            onNavigateToAiCloser={() => handleSelectPage('ai_closer')}
+          />
         </div>
       )}
 
